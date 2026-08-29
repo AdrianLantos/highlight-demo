@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOCKUP Highlight</title>
+
+    <link rel="stylesheet" href="../Assets/general.css">
+    <link rel="stylesheet" href="style.css">
+
+
+    <!-- icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./Assets/utils/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./Assets/utils/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./Assets/utils/favicon-16x16.png">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+</head>
+
+<body>
+    <section class="hero pin-wrap" data-scroll-progress="pin">
+        <div class="hero-stage pin-stage">
+
+            <h1 class="hero-heading">
+                <span class="sr-only">We are here to Highlight you.</span>
+
+                <span class="hero-visual" aria-hidden="true">
+                    <span class="hero-row">
+                        <span class="hero-word is-sharp">We</span>
+                        <span class="hero-word is-sharp">are</span>
+                        <span class="hero-word hero-word--blur" style="--i:0">here</span>
+                    </span>
+                    <span class="hero-row">
+                        <span class="hero-word hero-word--blur" style="--i:1">to</span>
+                        <span class="hero-word hero-word--highlight is-sharp">
+                            <span class="hero-highlight-mark">
+                                <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <rect class="hero-highlight-rect" x="0" y="0" width="0" height="100"></rect>
+                                </svg>
+                            </span>
+                            <span class="hero-word-text">Highlight</span>
+                        </span>
+                    </span>
+                    <span class="hero-row">
+                        <span class="hero-word hero-word--blur" style="--i:2">you</span>
+                    </span>
+                </span>
+            </h1>
+
+            <span class="hero-cue label">Scroll</span>
+
+        </div>
+    </section>
+
+    <section class="circle-scene circle-scene--to-dark pin-wrap" data-scroll-progress="pin">
+        <div class="pin-stage">
+            <div class="circle-glow circle-glow--to-dark"></div>
+            <div class="circle circle--to-dark"></div>
+        </div>
+    </section>
+
+    <section class="theme-dark interlude">
+        <div class="interlude-text interlude-text--track" data-scroll-progress="track" data-scroll-start="0.9"
+            data-scroll-end="0.25">
+            <p>We're an
+                agency that finds the one true thing about a
+                brand and refuses to let anyone scroll past it.</p>
+            <p>Strategy, creative and full in-house production, under
+                one
+                roof.</p>
+
+            <div class="credentials flex">
+                <svg class="credentials-circle" viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true">
+                    <path pathLength="100"
+                        d="M150,20 C210,18 260,35 262,55 C264,80 205,95 148,94 C88,93 34,78 33,54 C32,32 78,17 138,18 C150,18 156,19 150,10"
+                        stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="butt" />
+                </svg>
+                <p>12 <span class="label eyebrow">Years</span></p>
+                <p>240+ <span class="label eyebrow">Projects</span></p>
+                <p>9 <span class="label eyebrow">Awards</span></p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Same text, pin mode instead of track: text scale finishes early
+       (--p 0→0.3), then a pause, then the squiggle sweeps across
+       behind it (--p 0.4→1). Two stages carved out of one --p, same
+       "remap into sub-ranges" technique as the hero. -->
+    <!-- <section class="theme-dark interlude-pin pin-wrap" data-scroll-progress="pin">
+        <div class="pin-stage">
+            <svg class="interlude-squiggle" viewBox="0 0 900 500" aria-hidden="true">
+                <path pathLength="100"
+                    d="M60,420 C160,120 260,480 340,260 C380,140 300,60 210,150 C130,230 190,330 290,300 C470,250 600,70 760,300 C840,420 870,380 850,240"
+                    stroke="var(--accent)" stroke-width="10" fill="none" stroke-linecap="butt"
+                    stroke-linejoin="round" />
+            </svg>
+            <p class="interlude-text interlude-text--pin">DOAR UN EXPERIMENT. We're an agency that finds the one true
+                thing about a brand and refuses to let anyone scroll past it. Strategy, creative and full in-house
+                production, under one roof.</p>
+        </div>
+    </section> -->
+
+
+    <!-- SHOWCASE: sticky text column (left) + normal-flow video cards
+       (right). Deliberately NOT driven by data-scroll-progress — this
+       isn't one synthetic scene with a single progress number, it's
+       discrete cards the user scrolls past individually, which is
+       exactly what IntersectionObserver is for. One shared observer
+       (script.js) does double duty: toggles which text is active AND
+       plays/pauses the matching video, so the two can't drift out of
+       sync the way two separate mechanisms could at a boundary.
+ 
+       Placeholder color blocks stand in for real video — swap in a
+       real data-src per card and the color block can come out. -->
+    <section class="showcase theme-dark">
+        <div class="showcase-grid container">
+
+            <div class="showcase-text-col">
+                <div class="showcase-sticky sticky-top">
+                    <span class="showcase-eyebrow">What we highlight</span>
+                    <div class="showcase-text-stack">
+
+                        <div class="showcase-text-item is-active" data-index="0">
+                            <h3 class="showcase-text-headline">Festivals</h3>
+                            <p class="showcase-text-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Vestibulum euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi.</p>
+                        </div>
+
+                        <div class="showcase-text-item" data-index="1">
+                            <h3 class="showcase-text-headline">Brand activations</h3>
+                            <p class="showcase-text-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                                do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+
+                        <div class="showcase-text-item" data-index="2">
+                            <h3 class="showcase-text-headline">Trade marketing campaigns</h3>
+                            <p class="showcase-text-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
+                                enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+                        </div>
+
+                        <div class="showcase-text-item" data-index="3">
+                            <h3 class="showcase-text-headline">Conferences</h3>
+                            <p class="showcase-text-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+                                aute irure dolor in reprehenderit in voluptate velit esse cillum.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="showcase-media-col">
+
+                <article class="showcase-card" data-index="0" data-scroll-progress="track" data-scroll-start="1"
+                    data-scroll-end="-0.8">
+                    <div class="showcase-video-wrap">
+                        <video class="showcase-video" muted playsinline loop
+                            data-src="Assets/video/festivals.mp4"></video>
+                    </div>
+                    <div class="showcase-card-copy">
+                        <h4 class="showcase-card-headline">Festivals</h4>
+                        <p class="showcase-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </article>
+
+                <article class="showcase-card" data-index="1" data-scroll-progress="track" data-scroll-start="1"
+                    data-scroll-end="-0.8">
+                    <div class="showcase-video-wrap">
+                        <video class="showcase-video" muted playsinline loop
+                            data-src="Assets/video/activations.mp4"></video>
+                    </div>
+                    <div class="showcase-card-copy">
+                        <h4 class="showcase-card-headline">Brand activations</h4>
+                        <p class="showcase-card-desc">Sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
+                    </div>
+                </article>
+
+                <article class="showcase-card" data-index="2" data-scroll-progress="track" data-scroll-start="1"
+                    data-scroll-end="-0.8">
+                    <div class="showcase-video-wrap">
+                        <video class="showcase-video" muted playsinline loop
+                            data-src="Assets/video/trade marketing.mp4"></video>
+                    </div>
+                    <div class="showcase-card-copy">
+                        <h4 class="showcase-card-headline">Trade marketing campaigns</h4>
+                        <p class="showcase-card-desc">Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                    </div>
+                </article>
+
+                <article class="showcase-card" data-index="3" data-scroll-progress="track" data-scroll-start="1"
+                    data-scroll-end="-0.8">
+                    <div class="showcase-video-wrap">
+                        <video class="showcase-video" muted playsinline loop
+                            data-src="Assets/video/conference.mp4"></video>
+                    </div>
+                    <div class="showcase-card-copy">
+                        <h4 class="showcase-card-headline">Conferences</h4>
+                        <p class="showcase-card-desc">Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="circle-scene circle-scene--to-light pin-wrap theme-dark" data-scroll-progress="pin">
+        <div class="pin-stage">
+            <div class="circle circle--to-light"></div>
+        </div>
+    </section>
+
+    <!-- shared engine first: pin/track + .reveal wire themselves up on load -->
+    <script src="../Assets/general.js" defer></script>
+    <!-- this page only: loads after general.js so it can use window.ScrollEngine -->
+    <script src="script.js" defer></script>
+
+</body>
+
+</html>

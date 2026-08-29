@@ -1,0 +1,502 @@
+/* ---- HERO ---- */
+
+.hero {
+  height: 240vh;
+}
+
+.hero-stage {
+  flex-direction: column;
+  gap: var(--space-3);
+  text-align: center;
+  padding-inline: var(--container-gutter);
+}
+
+.hero-heading {
+  font-size: var(--fs-h1);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.hero-row {
+  display: block;
+}
+
+.hero-word {
+  display: inline-block;
+}
+
+.hero-word.is-sharp {
+  z-index: 1;
+  position: relative;
+}
+
+/* Words that start obscured and reveal as the user scrolls, staggered
+   per word via --i (set inline per word in the markup). Each word
+   carves its own slice out of the shared --p rather than reacting to
+   the whole 0→1 range at once:
+     --start  where in the overall --p this word begins revealing
+     --span   how much of --p this word's own reveal takes
+   With --stagger 0.15 and --span 0.4, word 0 runs 0→0.4, word 1 runs
+   0.15→0.55, word 2 runs 0.3→0.7 — each one finishes before the
+   highlight sweep (below) begins at 0.75, so nothing overlaps.
+
+   The word's actual text is never touched — always crisp, opacity:1.
+   A ::after pseudo-element sits on top of it: a solid patch the color
+   of the page background, with a soft box-shadow in the same color
+   feathering its edges, so it reads as a diffuse smudge rather than a
+   hard rectangle. Only its opacity animates — the shadow/blur amount
+   itself is fixed, so the browser renders that soft edge once and
+   just fades a cached result, instead of recomputing a blur filter
+   on every scroll frame like the previous version did. */
+.hero-word--blur {
+  position: relative;
+  --stagger: 0.15;
+  --span: 0.4;
+  --start: calc(var(--i, 0) * var(--stagger));
+  --p-word: clamp(0, calc((var(--p, 0) - var(--start)) / var(--span)), 1);
+  z-index: -1;
+}
+
+.hero-word--blur::after {
+  content: "";
+  position: absolute;
+  inset: -0.08em -0.1em;
+  z-index: 1;
+  background: var(--color-bg);
+  box-shadow: 0 0 0.5em 0.35em var(--color-bg);
+  opacity: calc(1 - var(--p-word, 0));
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* ---- highlight mark under "Highlight" ---- */
+
+.hero-word--highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-highlight-mark {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transform: rotateZ(-1deg);
+}
+
+.hero-highlight-rect {
+  fill: var(--accent);
+  height: 100%;
+  /* runs 0.75 → 1.0 — after every word above has already finished
+     clearing, so the sweep reads as the final beat, not a race */
+  width: calc(clamp(0, calc((var(--p, 0) - 0.75) / 0.25), 1) * 100%);
+}
+
+.hero-word-text {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-cue {
+  opacity: calc(1 - var(--p, 0) * 6);
+  /* gone well before the reveal finishes */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-word--blur::after {
+    opacity: 0;
+  }
+
+  .hero-highlight-rect {
+    width: 100%;
+  }
+}
+
+/* ---- CIRCLE SCENES ---- */
+
+.circle-scene {
+  height: 200vh;
+}
+
+.circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150vmax;
+  height: 150vmax;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(calc(0.1 + var(--p, 0) * 0.9));
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.circle--to-dark {
+  background: var(--ink);
+  box-shadow: 0 0 6vmax 6vmax rgba(5, 5, 5, 1);
+}
+
+.circle--to-light {
+  background: var(--paper);
+  box-shadow: 0 0 6vmax 6vmax rgba(255, 255, 255, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circle-scene {
+    height: 100vh;
+  }
+
+  .circle-scene .pin-stage {
+    position: static;
+  }
+
+  .circle-scene .circle {
+    display: none;
+  }
+
+  .circle-scene--to-dark .pin-stage {
+    background: linear-gradient(to bottom, var(--paper) 0%, var(--ink) 100%);
+  }
+
+  .circle-scene--to-light .pin-stage {
+    background: linear-gradient(to bottom, var(--ink) 0%, var(--paper) 100%);
+  }
+}
+
+/* ---- INTERLUDE ---- */
+
+.interlude {
+  min-height: 150vh;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  padding: var(--space-6) var(--container-gutter);
+}
+
+.interlude-text {
+  max-width: 50ch;
+  font-size: var(--fs-h2);
+}
+
+.interlude-text--track {
+  opacity: var(--p, 0);
+  transform: scale(calc(0.88 + var(--p, 0) * 0.12));
+}
+
+.interlude-text p {
+  margin: var(--space-4) 0;
+}
+
+.interlude-text .credentials {
+  gap: var(--space-3);
+  position: relative;
+  width: fit-content;
+}
+
+.interlude-text .credentials p {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  /* stays above the circle's stroke */
+}
+
+.interlude-text .credentials .eyebrow {
+  color: var(--mute);
+}
+
+/* Circle draws in around the credentials row — a secondary beat
+   carved out of the SAME --p already flowing through .interlude-text
+   (not a new tracked element: this is naturally "part of" the same
+   reveal, just timed to finish after it). --p-circle only starts
+   once --p passes 0.6, so the numbers are mostly legible before the
+   circle starts drawing around them.
+ 
+   Same pathLength="100" + stroke-dasharray/dashoffset technique as
+   the squiggle — see scroll-animations.md §8. Using stroke-linecap
+   "butt" rather than "round" so it doesn't paint a stray dot at
+   dashoffset 100 before the draw begins (see that same doc's gotcha
+   on this — it's the exact bug that showed up on the squiggle). */
+.credentials {
+  --p-circle: clamp(0, calc((var(--p, 0) - 0.6) / 0.4), 1);
+}
+
+.credentials-circle {
+  position: absolute;
+    inset: -1.2em -2em;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.credentials-circle path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc(100 - var(--p-circle, 0) * 100);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interlude-text--track {
+    opacity: 1;
+    transform: none;
+  }
+
+  .credentials-circle path {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---- INTERLUDE (pin variant) ----
+   Two stages carved out of one --p:
+     --p-text     0 → 0.3   text scale, finishes fast
+     --p-squiggle 0.4 → 1   squiggle sweeps left-to-right behind it
+   The 0.3→0.4 gap is a deliberate pause between the two beats. */
+
+.interlude-pin {
+  height: 220vh;
+}
+
+.interlude-pin .pin-stage {
+  --p-text: clamp(0, calc(var(--p, 0) / 0.3), 1);
+  --p-squiggle: clamp(0, calc((var(--p, 0) - 0.9) / 0.1), 1);
+  /* --p-squiggle's own 0→1 range is split into two sub-phases:
+     first half draws the path in full, second half erases it again
+     starting from the same end it began drawing from. */
+  --p-draw: clamp(0, calc(var(--p-squiggle, 0) / 0.5), 1);
+  --p-erase: clamp(0, calc((var(--p-squiggle, 0) - 0.5) / 0.5), 1);
+  /* no position override here — .pin-stage is already position:sticky
+     from general.css, which is already a valid positioning context
+     for the squiggle's position:absolute below. Setting position:
+     relative here (as I did previously) silently overrides the
+     sticky from general.css, since this selector is more specific —
+     that was the bug. */
+}
+
+.interlude-text--pin {
+  position: relative;
+  z-index: 1;
+  /* same formula as .interlude-text--track, just reading the fast
+     --p-text sub-range instead of the raw --p */
+  opacity: calc(0.50 + var(--p-text, 0) * 0.50);
+  transform: scale(calc(0.50 + var(--p-text, 0) * 0.50));
+}
+
+.interlude-squiggle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: min(900px, 90vw);
+  height: auto;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Animating the path itself, not moving the element: pathLength="100"
+   on the <path> normalizes dash math to 0–100 regardless of the
+   curve's actual geometry.
+ 
+   The visible segment is [start, end] along the path, in the same
+   0–100 units:
+     end   = --p-draw  * 100   (0 during the draw phase's start, grows
+                                 to 100 as the path finishes drawing,
+                                 then holds at 100 through the erase
+                                 phase — the far end stays put)
+     start = --p-erase * 100   (stays 0 through the whole draw phase,
+                                 then grows to 100 during the erase
+                                 phase — the near end "catches up")
+ 
+   dasharray's first value is the visible length (end - start);
+   dashoffset is -start (a negative dashoffset shifts the dash pattern
+   forward along the path by that amount). At rest: length 0, nothing
+   visible. Fully drawn: length 100, offset 0. Fully erased again:
+   length 0, offset -100 — nothing visible, same as the start, but
+   having swept the whole path in between. */
+.interlude-squiggle path {
+  stroke-dasharray: calc((var(--p-draw, 0) - var(--p-erase, 0)) * 100) 200;
+  stroke-dashoffset: calc(var(--p-erase, 0) * -100);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  /* The squiggle sweep only exists to fill scroll distance that the
+     motion itself creates a reason for — remove one, remove the
+     other, same reasoning as the circle scenes. */
+  .interlude-pin {
+    height: auto;
+    min-height: 60vh;
+  }
+
+  .interlude-pin .pin-stage {
+    position: static;
+  }
+
+  .interlude-text--pin {
+    opacity: 1;
+    transform: none;
+  }
+
+  .interlude-squiggle {
+    display: none;
+  }
+}
+
+/* ---- SHOWCASE ----
+   Mobile-first: single column, each card is self-contained with its
+   own inline headline/descriptor (.showcase-card-copy) underneath a
+   smaller video. At desktop width this switches to a sticky text
+   column + full-height video cards, with .showcase-card-copy hidden
+   (the sticky stack shows the matching text instead) — the layouts
+   are different enough in structure, not just size, that reflowing
+   one shape into the other with pure CSS would be more contorted
+   than showing/hiding the two copy blocks that already exist. */
+
+.showcase-eyebrow {
+  font-family: "SF Mono", "Courier New", monospace;
+  font-size: var(--fs-h3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  padding-block: var(--space-6);
+}
+
+.showcase-text-col {
+  display: none;
+  /* shown at desktop width below */
+}
+
+.showcase-media-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ---- video card (both breakpoints) ---- */
+
+.showcase-card {
+  /* --p comes from data-scroll-progress="track" (start:1, end:0) —
+     the full top-to-bottom traverse of the viewport. --p-peak is the
+     same "symmetric distance from center" trick as the cylinder
+     cards: 0 at either edge, 1 at dead center. */
+  --p-peak: clamp(0, calc(1 - abs(var(--p, 0) - 0.5) * 2), 1);
+}
+
+.showcase-video-wrap {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: #111;
+  /* visible before a placeholder color loads */
+  transform: scale(calc(0.85 + var(--p-peak, 0) * 0.15));
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-video-wrap {
+    transform: none;
+  }
+}
+
+.showcase-video,
+.showcase-placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* mobile: smaller card, inline copy underneath */
+.showcase-video-wrap {
+  max-width: 80vw;
+  margin-inline: auto;
+}
+
+.showcase-card-copy {
+  margin-top: var(--space-2);
+  text-align: center;
+}
+
+.showcase-card-headline {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  margin-bottom: var(--space-1);
+}
+
+.showcase-card-desc {
+  font-size: var(--fs-h3);
+  max-width: 40ch;
+  margin-inline: auto;
+}
+
+/* ---- desktop: sticky text column + full-height cards ---- */
+
+@media (min-width: 768px) {
+
+  .showcase-grid {
+    grid-template-columns: 1fr 1fr;
+    padding-block: var(--space-8);
+  }
+
+  .showcase-text-col {
+    display: block;
+  }
+
+  .showcase-sticky {
+    top: 12vh;
+  }
+
+  .showcase-text-stack {
+    position: relative;
+    height: fit-content;
+    /* rough placeholder — revisit once real copy lengths are known */
+    margin-top: var(--space-3);
+  }
+
+  .showcase-text-item {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+
+  .showcase-text-item.is-active {
+    opacity: 1;
+  }
+
+  .showcase-text-headline {
+    font-size: var(--fs-h2);
+    font-weight: 800;
+    margin-bottom: var(--space-3);
+  }
+
+  .showcase-text-body {
+    max-width: 42ch;
+    line-height: 1.6;
+    opacity: 0.85;
+    /* slight de-emphasis vs. the bolder headline, without dropping to the very low --mute alpha */
+  }
+
+  .showcase-video-wrap {
+    max-width: none;
+    height: 80vh;
+    margin-inline: auto;
+  }
+
+  .showcase-card-copy {
+    display: none;
+    /* the sticky stack covers this at desktop width */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-text-item {
+    transition: none;
+  }
+}

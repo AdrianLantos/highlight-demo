@@ -1,0 +1,321 @@
+/* =========================================================================
+   GENERAL.CSS
+   -------------------------------------------------------------------------
+   Shared across every page. Nothing page-specific belongs in here — that
+   goes in the page's own style.css, loaded after this one. Three sections,
+   in cascade order: tokens, reset/base, then reusable utility classes.
+   ========================================================================= */
+
+/* =====================================================================
+   DESIGN TOKENS
+   ---------------------------------------------------------------------
+   Single source of truth for color, type, spacing, radius, shadow and
+   motion values. The base/utilities sections below, and any page's
+   own style.css, should all reference these rather than hardcoding a
+   value a second time.
+
+   Breakpoints used throughout this project:
+     mobile     default / no media query (up to ~767px)
+     desktop    min-width: 1024px
+     ultrawide  min-width: 1800px
+
+   NOTE: CSS custom properties cannot be substituted inside an
+   @media (...) condition — that's a spec limitation, not a choice
+   made here. So these three numbers are written as literals in every
+   file that needs them (right now, just this one). Keep them
+   consistent by hand until/unless this project adds a build step
+   (Sass variables, PostCSS @custom-media), which is the only way to
+   make a breakpoint a real, reusable value.
+
+   Font sizes are in rem (16px root assumed) rather than px, so they
+   scale with a user's browser text-size preference. Spacing/radius/
+   container tokens below stay in px on purpose — letting layout
+   dimensions scale with a bumped-up root font-size tends to break
+   compositions in ways type scaling alone doesn't.
+   ===================================================================== */
+
+:root {
+
+  /* ---- color: primitives ---- */
+  --ink: #0a0a0a;
+  --paper: #fafafa;
+  --mute: rgba(255, 255, 255, 0.55);
+  --mute-dark: rgba(0, 0, 0, 0.45);
+  --accent: #fedd03;
+
+  /* ---- background colors ---- */
+  --color-bg: var(--paper);
+  --color-bg-reverse: var(--ink);
+  --color-text: var(--ink);
+  --colort-text-reversed: var(--paper);
+  --color-text-muted: var(--mute-dark);
+
+  /* ---- spacing scale ---- */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+  --space-6: 96px;
+
+  /* ---- radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 12px;
+
+  /* ---- motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-base: 0.6s;
+  --duration-fast: 0.3s;
+
+  /* ---- container ---- */
+  --container-max: 1440px;
+  --container-gutter: 24px;
+
+  /* ---- type: mobile (default) ---- */
+  --fs-label: 0.75rem;
+  /* 12px */
+  --fs-small: 0.8125rem;
+  /* 13px */
+  --fs-body: 1rem;
+  /* 16px */
+  --fs-h3: 1.25rem;
+  /* 20px */
+  --fs-h2: 1.75rem;
+  /* 28px */
+  --fs-h1: 2.5rem;
+  /* 40px */
+}
+
+/* ---- type: desktop ---- */
+@media (min-width: 1024px) {
+  :root {
+    --fs-label: 0.75rem;
+    /* 12px */
+    --fs-small: 0.875rem;
+    /* 14px */
+    --fs-body: 1.0625rem;
+    /* 17px */
+    --fs-h3: 1.5rem;
+    /* 24px */
+    --fs-h2: 2.5rem;
+    /* 40px */
+    --fs-h1: 5.5rem;
+    /* 88px */
+
+    --container-gutter: 40px;
+  }
+}
+
+/* ---- type: ultrawide ---- */
+@media (min-width: 1800px) {
+  :root {
+    --fs-label: 0.8125rem;
+    /* 13px */
+    --fs-small: 0.9375rem;
+    /* 15px */
+    --fs-body: 1.1875rem;
+    /* 19px */
+    --fs-h3: 1.75rem;
+    /* 28px */
+    --fs-h2: 3.25rem;
+    /* 52px */
+    --fs-h1: 8rem;
+    /* 128px */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-base: 0s;
+    --duration-fast: 0s;
+  }
+}
+
+/* =========================================================================
+   BASE
+   -------------------------------------------------------------------------
+   The reset and bare-element defaults — targets raw HTML elements only,
+   no classes live here.
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--fs-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================================================================
+   UTILITIES
+   ========================================================================= */
+
+/* ---- flex ---- */
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-1 {
+  gap: var(--space-1);
+}
+
+.gap-2 {
+  gap: var(--space-2);
+}
+
+.gap-3 {
+  gap: var(--space-3);
+}
+
+.gap-4 {
+  gap: var(--space-4);
+}
+
+.gap-5 {
+  gap: var(--space-5);
+}
+
+.gap-6 {
+  gap: var(--space-6);
+}
+
+/* ---- container ---- */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter);
+}
+
+/* ---- sticky / pinned scroll scenes ----
+   Generic version of the .scene/.stage pattern from the demo.
+
+   .sticky-top alone = a plain sticky header/nav, no scroll-progress
+   tracking involved.
+
+   .pin-wrap + .pin-stage together = the scrubbed-effect pattern (the
+   circle expand/collapse, the cylinder cards' parent, etc.) — pair
+   the .pin-wrap element with data-scroll-progress="pin" from
+   general.js. .pin-wrap needs its height set per instance (e.g. 300vh)
+   since that height IS the scroll distance the effect plays out over;
+   there's no one right default. */
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.pin-wrap {
+  position: relative;
+}
+
+.pin-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- content patterns ---- */
+
+.label {
+  font-family: "SF Mono", "Courier New", monospace;
+  font-size: var(--fs-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.theme-dark {
+  background-color: var(--color-bg-reverse);
+  color: var(--colort-text-reversed);
+}
+
+/* screen-reader-only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- aspect ratios (image/card placeholders) ---- */
+
+.aspect-1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect-3-4 {
+  aspect-ratio: 3 / 4;
+}
+
+.aspect-16-9 {
+  aspect-ratio: 16 / 9;
+}
