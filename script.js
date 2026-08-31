@@ -1,77 +1,84 @@
-(function () {
-  "use strict";
- 
-  // page-specific code goes here
- 
-})();
- 
-/* =========================================================================
-   SHOWCASE — sticky text + video cards
-   -------------------------------------------------------------------------
-   Not part of the pin/track engine on purpose: this is discrete cards
-   the user scrolls past one at a time, not one continuous progress
-   value. One shared IntersectionObserver drives both the text swap
-   and the video play/pause together, so they can't disagree about
-   which card is "active" at a boundary the way two separate
-   mechanisms could.
- 
-   rootMargin "-40% 0px -40% 0px" shrinks the observer's effective
-   viewport to a thin band across the vertical center of the screen —
-   a card is only considered "active" once it's roughly centered,
-   matching "takes up most of the viewport" rather than firing the
-   instant a sliver of it appears at the edge.
- 
-   Video src is set lazily, the first time a card becomes active —
-   nothing downloads until it's actually about to play. Autoplay is
-   skipped under prefers-reduced-motion; the text swap and lazy-load
-   still happen either way, only .play() is withheld.
-   ========================================================================= */
- 
-(function () {
-  "use strict";
- 
-  var cards = document.querySelectorAll(".showcase-card");
-  if (!cards.length) return;
- 
-  var textItems = document.querySelectorAll(".showcase-text-item");
-  var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
- 
-  function setActiveText(index) {
-    textItems.forEach(function (el) {
-      el.classList.toggle("is-active", el.dataset.index === index);
-    });
-  }
- 
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        var card = entry.target;
-        var video = card.querySelector(".showcase-video");
-        var index = card.dataset.index;
- 
-        if (entry.isIntersecting) {
-          setActiveText(index);
- 
-          if (video) {
-            if (!video.src && video.dataset.src) {
-              video.src = video.dataset.src;
-            }
-            if (video.src && !prefersReducedMotion) {
-              video.play().catch(function () {
-                // autoplay can still be rejected by the browser even
-                // when muted (e.g. low-power mode) — fine to ignore
-              });
-            }
-          }
-        } else if (video) {
-          video.pause();
+var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function lazyPlayVideo(entry) {
+    var video = entry.target.querySelector(".showcase-video");
+    if (!video) return;
+
+    if (entry.isIntersecting) {
+        if (!video.src && video.dataset.src) {
+            video.src = video.dataset.src;
         }
-      });
-    },
-    { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-  );
- 
-  cards.forEach(function (card) {
-    observer.observe(card);
+        if (video.src && !prefersReducedMotion) {
+            video.play().catch(function () {
+                // autoplay can still be rejected by the browser even when
+                // muted (e.g. low-power mode) — fine to ignore
+            });
+        }
+    } else {
+        video.pause();
+    }
+}
+
+(function () {
+    "use strict";
+
+    var cards = document.querySelectorAll(".highlight-project");
+    if (!cards.length) return;
+
+    var observer = new IntersectionObserver(
+        function (entries) {
+            entries.forEach(lazyPlayVideo);
+        },
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+    );
+
+    cards.forEach(function (card) {
+        observer.observe(card);
+    });
+})();
+
+
+(function () {
+  "use strict";
+
+  var track = document.getElementById("newsCarousel");
+  if (!track) return;
+
+  var prevBtn = document.querySelector(".news-carousel-btn--prev");
+  var nextBtn = document.querySelector(".news-carousel-btn--next");
+
+  function scrollByCard(direction) {
+    var card = track.querySelector(".news-card");
+    if (!card) return;
+    var gap = parseFloat(getComputedStyle(track).gap) || 0;
+    track.scrollBy({ left: (card.getBoundingClientRect().width + gap) * direction, behavior: "smooth" });
+  }
+
+  if (prevBtn) prevBtn.addEventListener("click", function () { scrollByCard(-1); });
+  if (nextBtn) nextBtn.addEventListener("click", function () { scrollByCard(1); });
+
+  function updateButtons() {
+    var maxScroll = track.scrollWidth - track.clientWidth;
+    if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
+    if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
+  }
+  track.addEventListener("scroll", updateButtons, { passive: true });
+  window.addEventListener("resize", updateButtons, { passive: true });
+  updateButtons();
+
+  var isDown = false, startX, startScroll;
+  track.addEventListener("pointerdown", function (e) {
+    isDown = true;
+    track.classList.add("is-dragging");
+    startX = e.clientX;
+    startScroll = track.scrollLeft;
+  });
+  window.addEventListener("pointerup", function () {
+    isDown = false;
+    track.classList.remove("is-dragging");
+  });
+  window.addEventListener("pointermove", function (e) {
+    if (!isDown) return;
+    track.scrollLeft = startScroll - (e.clientX - startX);
   });
 })();
