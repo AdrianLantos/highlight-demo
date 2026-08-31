@@ -46,7 +46,9 @@
         linear: function (t) { return t; },
         out: function (t) { return 1 - Math.pow(1 - t, 3); },
         'in': function (t) { return t * t * t; },
-        'in-out': function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+        'in-out': function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; },
+        // fast start, slows through the middle, fast finish — mirror of in-out
+        'out-in': function (t) { return t < 0.5 ? (1 - Math.pow(1 - 2 * t, 3)) / 2 : 0.5 + Math.pow(2 * t - 1, 3) / 2; }
     };
 
     function clamp(n, min, max) { return Math.min(max, Math.max(min, n)); }

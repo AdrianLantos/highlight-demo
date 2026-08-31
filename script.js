@@ -65,20 +65,76 @@ function lazyPlayVideo(entry) {
   track.addEventListener("scroll", updateButtons, { passive: true });
   window.addEventListener("resize", updateButtons, { passive: true });
   updateButtons();
+})();
 
-  var isDown = false, startX, startScroll;
-  track.addEventListener("pointerdown", function (e) {
-    isDown = true;
-    track.classList.add("is-dragging");
-    startX = e.clientX;
-    startScroll = track.scrollLeft;
+
+(function () {
+  "use strict";
+
+  var nav = document.getElementById("siteNav");
+  if (!nav) return;
+
+  var revealThreshold = 80; // px scrolled before the nav is allowed to appear at all
+  var lastY = window.scrollY;
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    var y = window.scrollY;
+
+    if (y < revealThreshold) {
+      nav.classList.remove("is-visible");
+    } else if (y < lastY) {
+      nav.classList.add("is-visible"); // scrolling up
+    } else if (y > lastY) {
+      nav.classList.remove("is-visible"); // scrolling down
+    }
+
+    lastY = y;
+  }
+
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener("scroll", requestTick, { passive: true });
+})();
+
+
+(function () {
+  "use strict";
+
+  var toggle = document.getElementById("navToggle");
+  var modal = document.getElementById("navModal");
+  if (!toggle || !modal) return;
+
+  function closeMenu() {
+    toggle.setAttribute("aria-expanded", "false");
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  function openMenu() {
+    toggle.setAttribute("aria-expanded", "true");
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  toggle.addEventListener("click", function () {
+    var isOpen = toggle.getAttribute("aria-expanded") === "true";
+    if (isOpen) closeMenu(); else openMenu();
   });
-  window.addEventListener("pointerup", function () {
-    isDown = false;
-    track.classList.remove("is-dragging");
+
+  modal.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", closeMenu);
   });
-  window.addEventListener("pointermove", function (e) {
-    if (!isDown) return;
-    track.scrollLeft = startScroll - (e.clientX - startX);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeMenu();
   });
 })();
