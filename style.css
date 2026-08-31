@@ -6,7 +6,7 @@
 
 .hero-stage {
     flex-direction: column;
-    gap: var(--gap-2);
+    gap: var(--space-3);
     text-align: center;
     padding-inline: var(--container-padding);
     --p-words: clamp(0, calc(var(--p, 0) / 0.5), 1);
@@ -15,9 +15,9 @@
 
 .hero-heading {
     font-size: var(--fs-h1);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-tight);
 }
 
 .hero-row {
@@ -33,15 +33,6 @@
     position: relative;
 }
 
-/* Words that start obscured and reveal as the user scrolls, staggered
-   per word via --i (set inline per word in the markup). Each word
-   carves its own slice out of the shared --p rather than reacting to
-   the whole 0→1 range at once:
-     --start  where in the overall --p this word begins revealing
-     --span   how much of --p this word's own reveal takes
-   With --stagger 0.15 and --span 0.4, word 0 runs 0→0.4, word 1 runs
-   0.15→0.55, word 2 runs 0.3→0.7 — each one finishes before the
-   highlight sweep (below) begins at 0.75, so nothing overlaps. */
 .hero-word--blur {
     position: relative;
     --stagger: 0.15;
@@ -83,8 +74,6 @@
 .hero-highlight-rect {
     fill: var(--accent);
     height: 100%;
-    /* runs 0.75 → 1.0 — after every word above has already finished
-     clearing, so the sweep reads as the final beat, not a race */
     width: calc(clamp(0, calc((var(--p-words, 0) - 0.75) / 0.25), 1) * 100%);
 }
 
@@ -143,9 +132,6 @@
     align-items: start;
     --p-text: clamp(0, calc(var(--p, 0) / 0.3), 1);
     --p-squiggle: clamp(0, calc((var(--p, 0) - 0.5) / 0.5), 1);
-    /* --p-squiggle's own 0→1 range is split into two sub-phases:
-     first half draws the path in full, second half erases it again
-     starting from the same end it began drawing from. */
     --p-draw: clamp(0, calc(var(--p-squiggle, 0) / 0.5), 1);
     --p-erase: clamp(0, calc((var(--p-squiggle, 0) - 0.5) / 0.5), 1);
 }
@@ -153,7 +139,6 @@
 .interlude-text--pin {
     position: relative;
     z-index: 1;
-    /* --p-text sub-range instead of the raw --p */
     opacity: var(--p-text, 0);
     transform: scale(calc(0.50 + var(--p-text, 0) * 0.50));
 }
@@ -165,11 +150,11 @@
 }
 
 .interlude-text p {
-    margin: var(--gap-1) 0;
+    margin: var(--space-2) 0;
 }
 
 .interlude-text .credentials {
-    gap: var(--gap-2);
+    gap: var(--space-3);
     position: relative;
     width: fit-content;
 }
@@ -193,26 +178,6 @@
     min-width: 700px;
 }
 
-/* Animating the path itself, not moving the element: pathLength="100"
-   on the <path> normalizes dash math to 0–100 regardless of the
-   curve's actual geometry.
- 
-   The visible segment is [start, end] along the path, in the same
-   0–100 units:
-     end   = --p-draw  * 100   (0 during the draw phase's start, grows
-                                 to 100 as the path finishes drawing,
-                                 then holds at 100 through the erase
-                                 phase — the far end stays put)
-     start = --p-erase * 100   (stays 0 through the whole draw phase,
-                                 then grows to 100 during the erase
-                                 phase — the near end "catches up")
- 
-   dasharray's first value is the visible length (end - start);
-   dashoffset is -start (a negative dashoffset shifts the dash pattern
-   forward along the path by that amount). At rest: length 0, nothing
-   visible. Fully drawn: length 100, offset 0. Fully erased again:
-   length 0, offset -100 — nothing visible, same as the start, but
-   having swept the whole path in between. */
 .interlude-squiggle path {
     stroke-dasharray: calc((var(--p-draw, 0) - var(--p-erase, 0)) * 100) 200;
     stroke-dashoffset: calc(var(--p-erase, 0) * -100);
@@ -220,9 +185,6 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-    /* The squiggle sweep only exists to fill scroll distance that the
-     motion itself creates a reason for — remove one, remove the
-     other, same reasoning as the circle scenes. */
     .interlude-pin {
         height: auto;
         min-height: 60vh;
@@ -251,7 +213,7 @@
     margin-top: 100px;
 }
 
-/* ---- 1. intro: ordinary in-flow reveal, nothing pinned ---- */
+/*  1. intro */
 
 .highlight-intro {
     text-align: start;
@@ -261,8 +223,13 @@
 }
 
 .highlight-intro-title {
-    font-size: var(--fs-h1);
-    font-weight: 800;
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-medium);
+}
+
+.highlight-intro .eyebrow {
+    display: block;
+    margin-top: var(--space-2);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -272,14 +239,7 @@
     }
 }
 
-/* ---- 2. the pin scene: growth only, nothing else ----
-   Genuine `pin` mode this time, not `track` — `pin`'s progress is
-   the exact fraction of the way through the pinned scroll, so no
-   tall-element approximation (§3) is needed at all; that hack was
-   only ever a workaround for `track`'s top-edge-only formula. The
-   video "scrolling into the middle" isn't built here explicitly —
-   that's just the normal pin/sticky behavior before this element's
-   own extra scroll height starts driving --p. */
+/* 2. the pin scene: growth only, nothing else */
 
 .highlight-pin {
     height: 250vh;
@@ -321,11 +281,7 @@
     }
 }
 
-/* ---- 3. copy + button: ordinary in-flow content after the pin ----
-   Not scroll-tied at all, no --p anywhere below this line — this is
-   what the user scrolls PAST the pin scene to reach, appearing once
-   the pin releases, exactly like any other content after a pin-wrap
-   in the document. */
+/* 3. copy + button */
 
 .highlight-copy {
     margin: 60px auto 0;
@@ -335,55 +291,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    font-size: var(--fs-h3);
 }
 
 .highlight-copy-text {
-    color: var(--paper);
+    font-size: var(--fs-body-lg);
+    font-weight: var(--fw-light);
+    color: var(--color-text-muted);
     margin-bottom: var(--space-3);
     max-width: 60ch;
-}
-
-.highlight-btn {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-2) var(--space-2) var(--space-2) 0;
-    font-size: var(--fs-h3);
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--paper);
-    overflow: hidden;
-}
-
-/* .highlight-btn-mark {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    top: 13%;
-}
-
-.highlight-btn-rect {
-    fill: var(--accent);
-    height: 30%;
-    width: 0;
-    transition: width 0.5s ease;
-}
-
-.highlight-btn:hover .highlight-btn-rect {
-    width: 100%;
-} */
-
-.highlight-btn-text {
-    position: relative;
-    z-index: 1;
-    transition: color 0.5s ease;
-    color: var(--mute);
-}
-
-.highlight-btn:hover .highlight-btn-text {
-    color: var(--paper);
 }
 
 @media screen and (max-width: 785px) {
@@ -427,12 +342,11 @@
 .service-sticky {
     top: 12vh;
     align-self: start;
-    /* without this, grid stretches the sticky column to the row's full height, which can prevent it from ever needing to "stick" in the first place */
 }
 
 .service-title {
     font-size: var(--fs-h2);
-    font-weight: 800;
+    font-weight: var(--fw-medium);
     margin-bottom: var(--space-2);
 }
 
@@ -448,7 +362,8 @@
 .services-list li {
     position: relative;
     padding-left: var(--space-3);
-    color: var(--color-bg);
+    color: var(--color-text-muted);
+    font-weight: var(--fw-light);
 }
 
 .services-list li::before {
@@ -464,25 +379,105 @@
 
 .services-copy {
     max-width: 60ch;
-    color: var(--paper);
+    font-size: var(--fs-body-lg);
+    font-weight: var(--fw-light);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+}
+
+.services-copy--label {
+    color: var(--color-text);
+    font-weight: var(--fw-medium);
     margin-bottom: var(--space-2);
 }
 
-.services-btn {
-    display: inline-flex;
+/* ---- CLIENT LOGOS ---- */
+
+.logos {
+    padding-block: var(--space-7);
+    overflow: hidden;
+}
+
+.logos-section-title {
+    padding-bottom: 45px;
+}
+
+.logos-marquee {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.logos-row {
+    overflow: hidden;
+}
+
+.logos-track {
+    display: flex;
+    width: max-content;
+    animation: logos-scroll var(--duration, 38s) linear infinite;
+    will-change: transform;
+}
+
+.logos-row--reverse .logos-track {
+    animation-direction: reverse;
+}
+
+.logos-row:hover .logos-track {
+    animation-play-state: paused;
+}
+
+.logos-list {
+    display: flex;
     align-items: center;
-    padding: var(--space-2) var(--space-2) var(--space-2) 0;
-    color: var(--mute);
-    font-size: var(--fs-body);
-    font-weight: 700;
-    text-decoration: none;
-    transition: color 0.3s;
+    list-style: none;
+    margin: 0;
+    padding-inline: calc(var(--space-4) / 2);
+    gap: var(--space-4);
 }
 
-.services-btn:hover {
-    color: var(--paper);
+/* ---- real client logos ---- */
+.logo-chip {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
 }
 
+.logo-chip img {
+    height: 64px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    filter: grayscale(1) brightness(1.6);
+    opacity: 0.55;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+    border-radius: var(--radius-md);
+}
+
+.logo-chip:hover img {
+    filter: none;
+    opacity: 1;
+}
+
+@keyframes logos-scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logos-track {
+        animation: none;
+    }
+
+    .logos-list[aria-hidden="true"] {
+        display: none;
+    }
+}
 
 /* NEWS */
 .news {
@@ -490,16 +485,6 @@
     overflow: hidden;
 }
 
-.news-title {
-    font-size: var(--fs-h1);
-    font-weight: 800;
-    margin-top: var(--space-2);
-    max-width: 20ch;
-}
-
-/* Breaks out to a true 100vw so cards can scroll all the way to the
-   real screen edge — width, not margin math, so it can't introduce a
-   horizontal scrollbar the way negative-margin breakouts sometimes do. */
 .news-carousel-wrap {
     position: relative;
     width: 100vw;
@@ -507,10 +492,6 @@
     transform: translateX(-50%);
     margin-top: var(--space-4);
     overflow-x: auto;
-    /* Where .container's content normally starts — same formula
-     .container itself resolves to internally. This is the piece that
-     keeps card one aligned with "Latest updates" above it, even
-     though the track spans the full viewport. */
     --content-inset: max(var(--container-padding), calc((100vw - var(--container-max)) / 2 + var(--container-padding)));
 }
 
@@ -550,6 +531,8 @@
     overflow: hidden;
     background: #111;
     margin-bottom: var(--space-3);
+    user-select: none;
+    pointer-events: none;
 }
 
 .news-card-media img {
@@ -560,13 +543,9 @@
 }
 
 .news-card-text {
-    color: var(--paper);
+    color: var(--color-text);
     font-size: var(--fs-small);
     line-height: 1.5;
-}
-
-.news-card-text strong {
-    color: var(--paper);
 }
 
 .news-carousel-controls {
@@ -580,9 +559,9 @@
     width: 40px;
     height: 40px;
     border-radius: var(--radius-full);
-    border: 1px solid var(--paper);
+    border: 1px solid var(--color-text);
     background: transparent;
-    color: var(--paper);
+    color: var(--color-text);
     font-size: 20px;
     display: flex;
     align-items: center;
@@ -591,7 +570,7 @@
 }
 
 .news-carousel-btn:hover:not(:disabled) {
-    background: var(--paper);
+    background: var(--color-text);
     color: var(--color-bg);
 }
 
