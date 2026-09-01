@@ -74,7 +74,7 @@ function lazyPlayVideo(entry) {
   var nav = document.getElementById("siteNav");
   if (!nav) return;
 
-  var revealThreshold = 80; // px scrolled before the nav is allowed to appear at all
+  var revealThreshold = 160; // px scrolled before the nav is allowed to appear at all
   var lastY = window.scrollY;
   var ticking = false;
 

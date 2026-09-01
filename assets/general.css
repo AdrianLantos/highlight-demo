@@ -326,7 +326,6 @@ video {
 .theme-dark {
     --color-bg: var(--color-bg-reversed);
     --color-text: var(--color-text-reversed);
-    --color-text-reversed: var(var(--color-bg));
     --color-text-muted: var(--color-text-muted-reversed);
     background-color: var(--color-bg);
     color: var(--color-text);
