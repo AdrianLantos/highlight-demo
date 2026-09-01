@@ -3,13 +3,16 @@
 
 var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Nav/footer markup generation (for pages that use it) lives in
-// nav-footer.js, loaded before this file on those pages — see that
-// file's header comment. The homepage keeps plain static HTML for both
-// instead, so it's not affected by any of this. What stays here applies
-// to every page regardless: smooth scroll, nav reveal-on-scroll, and the
-// mobile hamburger menu (the latter two just look up #siteNav/#navToggle/
-// #navModal by id, wherever those came from).
+// Nav/footer on every page is plain static HTML (GitHub Pages project
+// sites serve from a repo subpath, e.g. /repo-name/, so root-absolute
+// URLs like the ones nav-footer.js used to generate would 404 there —
+// hand-written relative paths per page sidestep that entirely). This
+// file just wires up behavior against whatever markup is already in the
+// DOM: smooth scroll, nav reveal-on-scroll, and the mobile hamburger
+// menu (the latter two look up #siteNav/#navToggle/#navModal by id).
+// nav-footer.js still exists in this folder but isn't loaded by any
+// page right now — kept around in case the generator approach comes
+// back later.
 
 (function () {
   "use strict";
