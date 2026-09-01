@@ -1,0 +1,64 @@
+/* Portfolio hub page (index.html) only. Shared bento tile primitives
+   (.portfolio-grid, .portfolio-item, sizing utilities, media fill,
+   .portfolio-visual, .portfolio-cta) live in grid.css, loaded before
+   this file. The project page has its own stylesheet: pages/project.css. */
+
+/* ---- PORTFOLIO INTRO ---- */
+
+.portfolio-intro {
+    padding-block: var(--space-7) var(--space-6);
+}
+
+.portfolio-intro .eyebrow {
+    margin-bottom: var(--space-3);
+}
+
+.portfolio-intro-lead {
+    max-width: 32ch;
+}
+
+.portfolio-intro-body {
+    max-width: 55ch;
+    margin-top: var(--space-4);
+}
+
+/* ---- CAPTIONED MEDIA TILES ----
+   only the hub grid uses captions on its media tiles; the project-page
+   gallery is media-only, no labels */
+
+.portfolio-caption {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: var(--space-3);
+    background: linear-gradient(to top, rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0) 70%);
+}
+
+.portfolio-caption .eyebrow {
+    margin: var(--space-1) 0 0;
+    opacity: 0.8;
+}
+
+/* small text-only tiles sprinkled through the grid — no card
+   treatment, just text sitting on the page. Row height is fixed
+   (grid.css) so this inherits .portfolio-item's overflow: hidden
+   rather than opting out of it — a too-long line clips inside its own
+   tile instead of bleeding into the one below.
+   Personal rule: keep flavor copy to a single short sentence
+   (~10-12 words) so it never gets close to that limit. */
+.portfolio-flavor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-3);
+    background: none;
+    border-radius: 0;
+}
+
+.portfolio-flavor p {
+    max-width: 24ch;
+}
+
+.portfolio-flavor--lorem p {
+    opacity: 0.5;
+}
