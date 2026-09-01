@@ -1,40 +1,57 @@
 var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function lazyPlayVideo(entry) {
-    var video = entry.target.querySelector(".showcase-video");
-    if (!video) return;
+(function () {
+  "use strict";
 
-    if (entry.isIntersecting) {
-        if (!video.src && video.dataset.src) {
-            video.src = video.dataset.src;
-        }
-        if (video.src && !prefersReducedMotion) {
-            video.play().catch(function () {
-                // autoplay can still be rejected by the browser even when
-                // muted (e.g. low-power mode) — fine to ignore
-            });
-        }
-    } else {
-        video.pause();
+  if (prefersReducedMotion || typeof Lenis === "undefined") return;
+
+  var lensis = new Lenis({
+     autoRaf: true, 
+     autoToggle: true, 
+     anchors: true, 
+     allowNestedScroll: true, 
+     naiveDimensions: true, 
+     stopInertiaOnNavigate: true,
+     duration: 1.8,
+    });
+
+})();
+
+function lazyPlayVideo(entry) {
+  var video = entry.target.querySelector(".showcase-video");
+  if (!video) return;
+
+  if (entry.isIntersecting) {
+    if (!video.src && video.dataset.src) {
+      video.src = video.dataset.src;
     }
+    if (video.src && !prefersReducedMotion) {
+      video.play().catch(function () {
+        // autoplay can still be rejected by the browser even when
+        // muted (e.g. low-power mode) — fine to ignore
+      });
+    }
+  } else {
+    video.pause();
+  }
 }
 
 (function () {
-    "use strict";
+  "use strict";
 
-    var cards = document.querySelectorAll(".highlight-project");
-    if (!cards.length) return;
+  var cards = document.querySelectorAll(".highlight-project");
+  if (!cards.length) return;
 
-    var observer = new IntersectionObserver(
-        function (entries) {
-            entries.forEach(lazyPlayVideo);
-        },
-        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-    );
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(lazyPlayVideo);
+    },
+    { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+  );
 
-    cards.forEach(function (card) {
-        observer.observe(card);
-    });
+  cards.forEach(function (card) {
+    observer.observe(card);
+  });
 })();
 
 
@@ -75,6 +92,7 @@ function lazyPlayVideo(entry) {
   if (!nav) return;
 
   var revealThreshold = 160; // px scrolled before the nav is allowed to appear at all
+  var revealDelta = 50; // px scrolled up (since last frame) before the nav reappears
   var lastY = window.scrollY;
   var ticking = false;
 
@@ -84,7 +102,7 @@ function lazyPlayVideo(entry) {
 
     if (y < revealThreshold) {
       nav.classList.remove("is-visible");
-    } else if (y < lastY) {
+    } else if (y < (lastY - revealDelta)) {
       nav.classList.add("is-visible"); // scrolling up
     } else if (y > lastY) {
       nav.classList.remove("is-visible"); // scrolling down

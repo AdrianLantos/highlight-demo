@@ -549,7 +549,11 @@
 }
 
 .highlight-project+.highlight-project {
-    margin-top: 10vh;
+    margin-top: 35vh;
+}
+
+.highlight-cta {
+    margin-top: 20vh;
 }
 
 /*  1. intro */
@@ -573,7 +577,7 @@
 
 /* 2. the pin scene: growth only, nothing else */
 .highlight-pin {
-    height: 150vh;
+    height: 180vh;
 }
 
 .highlight-media {
@@ -817,7 +821,7 @@
     padding: 0;
 }
 
-.news-carousel-btn:hover{
+.news-carousel-btn:hover:not(:disabled) {
     border-color: var(--accent);
 }
 
