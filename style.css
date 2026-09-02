@@ -8,14 +8,14 @@
 }
 
 .reveal {
-    opacity: 0.5;
-    transform: scale(0.93);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 0.0;
+    transform: translateY(40px);
+    transition: 0.75s ease-in;
 }
 
 .reveal.is-in {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
 }
 
 /* ---- HERO ---- */
@@ -257,11 +257,6 @@
     transform: translateY(calc((1 - var(--p, 0)) * 24px));
 }
 
-.highlight-intro-title {
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-medium);
-}
-
 .highlight-intro .eyebrow {
     display: block;
     margin-top: var(--space-2);
@@ -306,13 +301,27 @@
 }
 
 /* ---- PORTFOLIO CTA (small standalone section: headline + one button) ---- */
-.portofolio-cta-section {
-    padding-block: var(--space-6) var(--space-7);
-    text-align: center;
+.portfolio-cta-section .btn-text {
+    margin-top: var(--space-3);
 }
 
-.portofolio-cta-section .btn-text {
-    margin-top: var(--space-3);
+.portfolio-cta-section .btn-text--link::after {
+    content: "";
+    display: inline-block;
+    height: var(--fs-h2);
+    width: var(--fs-h2);
+    aspect-ratio: 1/1;
+    flex-shrink: 0;
+    background-color: var(--color-text);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: transform 0.45s ease;
+    position: absolute;
+    bottom: 0;
 }
 
 /* ---- SERVICES ---- */
@@ -339,9 +348,8 @@
     align-self: start;
 }
 
+/* type now comes from .subtitle (general.css); this is layout only */
 .service-title {
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-medium);
     margin-bottom: var(--space-2);
 }
 

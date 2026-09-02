@@ -131,7 +131,7 @@
     // scroll continuously; see scroll-animations.md for when to use which)
 
     function registerReveal(el, observers) {
-        var thresholdVal = el.dataset.revealThreshold || '0.4';
+        var thresholdVal = el.dataset.revealThreshold || '0.9';
 
         // Create the observer instance only if it doesn't exist yet for
         // this threshold — elements sharing a threshold share one observer.
