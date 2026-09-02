@@ -683,17 +683,48 @@ video {
    scroll-progress engine (data-scroll-progress="track" on the wrapper).
 
    Generic on purpose — not "the section title effect," just an effect.
-   Wrap whatever wants it:
-     <span class="highlight-sweep" data-scroll-progress="track"
+   Wrap whatever wants it. Font size/weight/color — whatever type class
+   this text would otherwise carry (.section-title, .subheadline, ...) —
+   goes on the .highlight-sweep wrapper itself, NOT on .highlight-sweep-text.
+   That's what lets .highlight-sweep-fill inherit the real font metrics
+   too (see below), so it can size its mask per line correctly instead of
+   guessing:
+     <span class="highlight-sweep section-title" data-scroll-progress="track"
            data-scroll-start="0.75" data-scroll-end="0.45">
        <span class="highlight-sweep-fill" aria-hidden="true"></span>
        <span class="highlight-sweep-text">Some text</span>
      </span>
+   Works the same wrapping a heading tag instead of a span (swap the
+   outer span for whatever's semantically right) — .highlight-sweep-text
+   just needs to be the element that actually holds the text.
    Anything that shouldn't sweep just isn't wrapped — no modifier class
    or opt-out needed.
+
+   Multi-line text: .highlight-sweep assumes ONE line — the mask is one
+   shape `cover`-fit to the element, and the text gradient sweep is
+   computed once against the element's own box. Text wrapping to 2+
+   lines breaks both: the mask shape stretches/crops across the full
+   multi-line height instead of following each line (a smeared blob,
+   not a mark under each line), and the gradient sweep paints
+   inconsistently per line instead of moving in lockstep. (A tiled,
+   repeat-per-line mask was tried and reverted — it fixed the shape but
+   distorted it on every single-line usage too, so don't reach for
+   repeat-y + a forced W×H mask-size again without a way to verify the
+   render.)
+
+   For text that's known to wrap, author the break yourself and give
+   each line its own .highlight-sweep instead of relying on the browser
+   to wrap one — see .highlight-sweep-lines below. This trades away
+   responsive reflow (the break is now fixed at every viewport width,
+   not just where the text happens to wrap) for a mark and sweep that
+   are actually correct per line.
    ========================================================================= */
 
 .highlight-sweep {
+    /* identity passthrough by default — .highlight-sweep-lines below
+       overrides this per line to stagger against the shared --p instead
+       of tracking it directly */
+    --p-line: var(--p, 0);
     position: relative;
     display: inline-block;
     width: fit-content;
@@ -714,7 +745,7 @@ video {
     mask-repeat: no-repeat;
     -webkit-mask-size: cover;
     mask-size: cover;
-    clip-path: inset(0 calc(100% - var(--p, 0) * 100%) 0 0);
+    clip-path: inset(0 calc(100% - var(--p-line, 0) * 100%) 0 0);
 }
 
 .highlight-sweep-text {
@@ -723,10 +754,49 @@ video {
     z-index: 1;
     background: linear-gradient(to right, var(--color-bg) 50%, var(--color-text) 50%);
     background-size: 205% 100%;
-    background-position: calc((1 - var(--p, 0)) * 100%) 0;
+    background-position: calc((1 - var(--p-line, 0)) * 100%) 0;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+/* ---- multi-line variant ----
+   Wrap authored lines in .highlight-sweep-lines instead of putting
+   data-scroll-progress on a single .highlight-sweep and letting its
+   text wrap. Each line gets its own full highlight-sweep/-fill/-text
+   trio (own mask, own gradient, sized to just that line — same 4%
+   overhang as the single-line case, not stretched to the group's
+   width); data-scroll-progress goes on the outer .highlight-sweep-lines
+   instead, and --p inherits down to every line so they all sweep off
+   one shared progress value instead of drifting apart:
+
+     <div class="highlight-sweep-lines" data-scroll-progress="track"
+          data-scroll-start="0.75" data-scroll-end="0.45">
+       <span class="highlight-sweep section-title" style="--i:0">
+         <span class="highlight-sweep-fill" aria-hidden="true"></span>
+         <span class="highlight-sweep-text">First line</span>
+       </span>
+       <span class="highlight-sweep section-title" style="--i:1">
+         <span class="highlight-sweep-fill" aria-hidden="true"></span>
+         <span class="highlight-sweep-text">Second line</span>
+       </span>
+     </div>
+
+   Stacks the lines as blocks instead of the inline-block default
+   (which would sit them side by side), and staggers each line's sweep
+   off the shared --p instead of tracking it directly — same --stagger/
+   --start/clamp remap as .hero-word--blur and .interlude-row, keyed off
+   a hand-set --i per line. Line 0 starts immediately and finishes at
+   --p 0.75; line 1 starts at --p 0.25 and finishes exactly at --p 1 —
+   tune --stagger/--span if a line count other than 2 needs it, and
+   widen data-scroll-start/-end if lines are getting cut off before
+   finishing. */
+.highlight-sweep-lines .highlight-sweep {
+    display: block;
+    --stagger: 0.45;
+    --span: 0.35;
+    --start: calc(var(--i, 0) * var(--stagger));
+    --p-line: clamp(0, calc((var(--p, 0) - var(--start)) / var(--span)), 1);
 }
 
 /* =========================================================================
