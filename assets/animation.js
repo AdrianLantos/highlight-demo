@@ -87,7 +87,7 @@
     // ---- reveal tier (one-shot) ----
 
     function registerReveal(el, observers) {
-        var thresholdVal = el.dataset.revealThreshold || '0.9';
+        var thresholdVal = el.dataset.revealThreshold || '0.6';
 
         if (!observers[thresholdVal]) {
             observers[thresholdVal] = new IntersectionObserver(function (entries, observer) {

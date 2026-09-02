@@ -4,6 +4,7 @@
    ========================================================================= */
 
 .portfolio-grid {
+    --stagger: 6000ms;
     padding-block: 0 var(--space-7);
     display: grid;
     grid-template-columns: 1fr;
