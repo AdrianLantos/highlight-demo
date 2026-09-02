@@ -29,10 +29,11 @@
 
 .project-media {
     position: relative;
-    aspect-ratio: 16 / 9;
+    /* aspect-ratio: 16 / 9; */
     overflow: hidden;
     border-radius: var(--radius-md);
     background: #111;
+    height: 100%;
 }
 
 .project-media img,

@@ -153,12 +153,6 @@
     var revealEls = document.querySelectorAll('.reveal');
     revealEls.forEach(function (el) { registerReveal(el, revealObservers); });
 
-    // ---- minimal public API ----
-    // For content that shows up after this script has already run —
-    // a CMS-driven section, something lazy-loaded, an infinite-scroll
-    // page — rather than everything having to exist in markup at load
-    // time. Static markup never needs to touch this; it's only here
-    // for the dynamic-content case.
     //
     //   ScrollEngine.register(el)        // wire up a new [data-scroll-progress] element
     //   ScrollEngine.registerReveal(el)  // wire up a new .reveal element

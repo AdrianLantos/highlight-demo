@@ -224,7 +224,7 @@ video {
 
 .section-title {
     font-family: var(--font-family-main);
-    font-size: var(--fs-h1-5);
+    font-size: var(--fs-h1);
     font-weight: var(--fw-medium);
     letter-spacing: var(--ls-tight);
     line-height: var(--lh-tight);
@@ -534,6 +534,11 @@ video {
     padding-block: var(--space-5) var(--space-4);
 }
 
+.site-footer *::selection {
+    background-color: var(--ink);
+    color: var(--accent);
+}
+
 .site-footer-top {
     display: flex;
     flex-direction: column;
@@ -672,6 +677,59 @@ video {
 }
 
 /* =========================================================================
+   HIGHLIGHT SWEEP — accent color wipes in behind the text, and the text
+   itself sweeps from background- to foreground-color, left to right, as
+   the element crosses the viewport. Driven by --p from animation.js's
+   scroll-progress engine (data-scroll-progress="track" on the wrapper).
+
+   Generic on purpose — not "the section title effect," just an effect.
+   Wrap whatever wants it:
+     <span class="highlight-sweep" data-scroll-progress="track"
+           data-scroll-start="0.75" data-scroll-end="0.45">
+       <span class="highlight-sweep-fill" aria-hidden="true"></span>
+       <span class="highlight-sweep-text">Some text</span>
+     </span>
+   Anything that shouldn't sweep just isn't wrapped — no modifier class
+   or opt-out needed.
+   ========================================================================= */
+
+.highlight-sweep {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+}
+
+.highlight-sweep-fill {
+    position: absolute;
+    left: -4%;
+    bottom: 0;
+    height: 100%;
+    width: 107%;
+    background: var(--accent);
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: url(./logo/highlight-logo-bg.svg);
+    mask-image: url(./logo/highlight-logo-bg.svg);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    clip-path: inset(0 calc(100% - var(--p, 0) * 100%) 0 0);
+}
+
+.highlight-sweep-text {
+    position: relative;
+    width: fit-content;
+    z-index: 1;
+    background: linear-gradient(to right, var(--color-bg) 50%, var(--color-text) 50%);
+    background-size: 205% 100%;
+    background-position: calc((1 - var(--p, 0)) * 100%) 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* =========================================================================
    RESPONSIVE
    ========================================================================= */
 
@@ -709,6 +767,14 @@ video {
    ========================================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
+    .highlight-sweep-fill {
+        clip-path: none;
+    }
+
+    .highlight-sweep-text {
+        -webkit-text-fill-color: var(--color-bg);
+    }
 
     .site-nav,
     .nav-modal,
