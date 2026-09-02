@@ -1,41 +1,4 @@
-function lazyPlayVideo(entry) {
-  var video = entry.target.querySelector(".showcase-video");
-  if (!video) return;
-
-  if (entry.isIntersecting) {
-    if (!video.src && video.dataset.src) {
-      video.src = video.dataset.src;
-    }
-    if (video.src && !prefersReducedMotion) {
-      video.play().catch(function () {
-        // autoplay can still be rejected by the browser even when
-        // muted (e.g. low-power mode) — fine to ignore
-      });
-    }
-  } else {
-    video.pause();
-  }
-}
-
-(function () {
-  "use strict";
-
-  var cards = document.querySelectorAll(".highlight-project");
-  if (!cards.length) return;
-
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(lazyPlayVideo);
-    },
-    { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-  );
-
-  cards.forEach(function (card) {
-    observer.observe(card);
-  });
-})();
-
-
+// ---- news carousel ----
 (function () {
   "use strict";
 

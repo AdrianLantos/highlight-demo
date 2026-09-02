@@ -1,23 +1,4 @@
-// Generates the nav (desktop bar + mobile modal) and footer markup for
-// every page EXCEPT the homepage, which keeps them as plain hand-written
-// HTML (easiest to edit directly, and it's the page most likely to keep
-// changing). Any other page just needs empty mount points as the first/
-// last things in <body> and this script loaded BEFORE general.js (whose
-// reveal-on-scroll/hamburger logic looks up #siteNav/#navToggle/#navModal
-// by id and needs them to already exist):
-//
-//   <div id="siteNavRoot"></div>
-//   ...page content...
-//   <div id="siteFooterRoot"></div>
-//   <script src="path/to/assets/nav-footer.js"></script>
-//   <script src="path/to/assets/general.js"></script>
-//
-// To add, remove or reorder a link, just edit the NAV_LINKS / SOCIAL_LINKS
-// / LEGAL_LINKS arrays below — everything else builds itself from them.
-// Every href here is root-absolute and clean (e.g. "/#work", never
-// "/index.html#work") since these pages only ever sit a level or two
-// under the root and this way there's no per-page "../" math to get wrong.
-
+// ---- nav ---- (not currently loaded by any page — see documentation.md)
 (function () {
   "use strict";
 
@@ -65,6 +46,7 @@
   `;
 })();
 
+// ---- footer ----
 (function () {
   "use strict";
 

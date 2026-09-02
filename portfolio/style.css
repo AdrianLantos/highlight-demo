@@ -1,9 +1,99 @@
-/* Portfolio hub page (index.html) only. Shared bento tile primitives
-   (.portfolio-grid, .portfolio-item, sizing utilities, media fill,
-   .portfolio-visual, .portfolio-cta) live in grid.css, loaded before
-   this file. The project page has its own stylesheet: pages/project.css. */
+/* =========================================================================
+   PORTFOLIO GRID — shared bento primitives, used by the hub grid
+   (index.html) and every project page's gallery (<slug>/index.html)
+   ========================================================================= */
 
-/* ---- PORTFOLIO INTRO ---- */
+.portfolio-grid {
+    padding-block: 0 var(--space-7);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 240px;
+    grid-auto-flow: dense;
+    gap: var(--space-3);
+}
+
+.portfolio-item {
+    position: relative;
+    display: block;
+    grid-column: span 1;
+    grid-row: span 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: #111;
+    text-decoration: none;
+}
+
+/* ---- grid sizing utilities ---- */
+.span-row-2 {
+    grid-row: span 2;
+}
+
+/* ---- media fill ---- */
+.portfolio-media {
+    position: absolute;
+    inset: 0;
+}
+
+.portfolio-media img,
+.portfolio-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--media-focus, 50% 50%);
+    transition: transform 0.4s ease;
+}
+
+.portfolio-item:hover .portfolio-media img,
+.portfolio-item:hover .portfolio-media video {
+    transform: scale(1.04);
+}
+
+.portfolio-flavor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-3);
+    background: none;
+    border-radius: 0;
+}
+
+.portfolio-flavor p {
+    max-width: 24ch;
+}
+
+.portfolio-flavor--lorem p {
+    opacity: 0.5;
+}
+
+.portfolio-visual {
+    background: #111;
+}
+
+.portfolio-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--media-focus, 50% 50%);
+}
+
+.portfolio-cta {
+    padding-block: var(--space-6) var(--space-7);
+    text-align: center;
+}
+
+.portfolio-cta .h2 {
+    max-width: 20ch;
+    margin-inline: auto;
+}
+
+.portfolio-cta .btn-text {
+    margin-top: var(--space-3);
+}
+
+/* =========================================================================
+   PORTFOLIO INTRO — hub page (index.html) only
+   ========================================================================= */
 
 .portfolio-intro {
     padding-block: var(--space-7) var(--space-6);
@@ -22,9 +112,7 @@
     margin-top: var(--space-4);
 }
 
-/* ---- CAPTIONED MEDIA TILES ----
-   only the hub grid uses captions on its media tiles; the project-page
-   gallery is media-only, no labels */
+/* ---- CAPTIONED MEDIA TILES ---- */
 
 .portfolio-caption {
     position: absolute;
@@ -38,27 +126,103 @@
     opacity: 0.8;
 }
 
-/* small text-only tiles sprinkled through the grid — no card
-   treatment, just text sitting on the page. Row height is fixed
-   (grid.css) so this inherits .portfolio-item's overflow: hidden
-   rather than opting out of it — a too-long line clips inside its own
-   tile instead of bleeding into the one below.
-   Personal rule: keep flavor copy to a single short sentence
-   (~10-12 words) so it never gets close to that limit. */
-.portfolio-flavor {
+/* =========================================================================
+   PROJECT PAGE — every portfolio/<slug>/index.html only
+   ========================================================================= */
+
+.project-back {
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: var(--space-3);
+}
+
+.project-hero {
+    padding-block: var(--space-6) var(--space-4);
+}
+
+.project-hero .eyebrow {
+    display: block;
+    margin-bottom: var(--space-2);
+}
+
+.project-body {
+    padding-block: 0 var(--space-6);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: start;
+}
+
+.project-media {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: #111;
+}
+
+.project-media img,
+.project-media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--media-focus, 50% 50%);
+}
+
+.project-copy {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: var(--space-3);
-    background: none;
-    border-radius: 0;
+    flex-direction: column;
+    gap: var(--space-3);
 }
 
-.portfolio-flavor p {
-    max-width: 24ch;
+.project-copy p {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-light);
+    line-height: var(--lh-normal);
+    color: var(--color-text-muted);
 }
 
-.portfolio-flavor--lorem p {
-    opacity: 0.5;
+.project-copy p:first-child {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-tight);
+    color: var(--color-text);
+}
+
+.project-copy .btn-text {
+    margin-top: var(--space-2);
+}
+
+.project-gallery {
+    padding-block: var(--space-2) var(--space-6);
+}
+
+/* =========================================================================
+   RESPONSIVE
+   ========================================================================= */
+
+@media (min-width: 768px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 280px;
+        gap: var(--space-4);
+    }
+
+    .span-col-2 {
+        grid-column: span 2;
+    }
+
+    .project-body {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-6);
+    }
+}
+
+@media (min-width: 1200px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 300px;
+    }
 }

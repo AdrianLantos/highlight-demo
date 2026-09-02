@@ -248,7 +248,7 @@
     margin-top: 10vh;
 }
 
-/*  1. intro */
+/* 1. intro */
 
 .highlight-intro {
     text-align: start;
@@ -262,7 +262,7 @@
     margin-top: var(--space-2);
 }
 
-/* 2. the pin scene: growth only, nothing else */
+/* 2. the pin scene */
 .highlight-pin {
     height: 180vh;
 }
@@ -282,8 +282,6 @@
     will-change: width;
 }
 
-/* .showcase-video, .showcase-placeholder: see assets/general.css */
-
 /* 3. copy + button */
 
 .highlight-copy {
@@ -300,7 +298,7 @@
     margin-bottom: var(--space-3);
 }
 
-/* ---- PORTFOLIO CTA (small standalone section: headline + one button) ---- */
+/* ---- PORTFOLIO CTA ---- */
 .portfolio-cta-section .btn-text {
     margin-top: var(--space-3);
 }
@@ -348,7 +346,6 @@
     align-self: start;
 }
 
-/* type now comes from .subtitle (general.css); this is layout only */
 .service-title {
     margin-bottom: var(--space-2);
 }

@@ -1,19 +1,6 @@
-// Shared across every page: reduced-motion flag, smooth scroll, and the
-// site nav (reveal-on-scroll-up + mobile hamburger menu). 
-
 var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Nav/footer on every page is plain static HTML (GitHub Pages project
-// sites serve from a repo subpath, e.g. /repo-name/, so root-absolute
-// URLs like the ones nav-footer.js used to generate would 404 there —
-// hand-written relative paths per page sidestep that entirely). This
-// file just wires up behavior against whatever markup is already in the
-// DOM: smooth scroll, nav reveal-on-scroll, and the mobile hamburger
-// menu (the latter two look up #siteNav/#navToggle/#navModal by id).
-// nav-footer.js still exists in this folder but isn't loaded by any
-// page right now — kept around in case the generator approach comes
-// back later.
-
+// ---- smooth scroll (Lenis) ----
 (function () {
   "use strict";
 
@@ -31,13 +18,14 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
 
 })();
 
+// ---- nav reveal-on-scroll-up ----
 (function () {
   "use strict";
 
   var nav = document.getElementById("siteNav");
   if (!nav) return;
 
-  var revealThreshold = 100; // px scrolled before the nav is allowed to appear at all
+  var revealThreshold = 60;
   var lastY = window.scrollY;
   var ticking = false;
 
@@ -48,9 +36,9 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
     if (y < revealThreshold) {
       nav.classList.remove("is-visible");
     } else if (y < lastY) {
-      nav.classList.add("is-visible"); // scrolling up
+      nav.classList.add("is-visible");
     } else if (y > lastY) {
-      nav.classList.remove("is-visible"); // scrolling down
+      nav.classList.remove("is-visible");
     }
 
     lastY = y;
@@ -66,6 +54,7 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
   window.addEventListener("scroll", requestTick, { passive: true });
 })();
 
+// ---- mobile hamburger + modal ----
 (function () {
   "use strict";
 
@@ -98,5 +87,40 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeMenu();
+  });
+})();
+
+// ---- video autoplay ----
+(function () {
+  "use strict";
+
+  var cards = document.querySelectorAll(".js-video-autoplay");
+  if (!cards.length) return;
+
+  function lazyPlayVideo(entry) {
+    var video = entry.target.querySelector(".showcase-video");
+    if (!video) return;
+
+    if (entry.isIntersecting) {
+      if (!video.src && video.dataset.src) {
+        video.src = video.dataset.src;
+      }
+      if (video.src && !prefersReducedMotion) {
+        video.play().catch(function () {});
+      }
+    } else {
+      video.pause();
+    }
+  }
+
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(lazyPlayVideo);
+    },
+    { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+  );
+
+  cards.forEach(function (card) {
+    observer.observe(card);
   });
 })();
