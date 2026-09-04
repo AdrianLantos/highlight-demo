@@ -135,6 +135,11 @@
     display: inline-block;
     text-decoration: none;
     margin-bottom: var(--space-3);
+    transition: 0.3s ease-in-out;
+}
+
+.project-back:hover{
+    color: var(--accent);
 }
 
 .project-hero {

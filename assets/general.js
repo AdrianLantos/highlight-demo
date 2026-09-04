@@ -97,6 +97,8 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
   var cards = document.querySelectorAll(".js-video-autoplay");
   if (!cards.length) return;
 
+  var activeVideo = null;
+
   function lazyPlayVideo(entry) {
     var video = entry.target.querySelector(".showcase-video");
     if (!video) return;
@@ -106,10 +108,15 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
         video.src = video.dataset.src;
       }
       if (video.src && !prefersReducedMotion) {
+        if (activeVideo && activeVideo !== video) {
+          activeVideo.pause();
+        }
         video.play().catch(function () {});
+        activeVideo = video;
       }
     } else {
       video.pause();
+      if (activeVideo === video) activeVideo = null;
     }
   }
 

@@ -1,3 +1,23 @@
+/* =========================================================================
+   FONT FACES
+   ========================================================================= */
+
+@font-face {
+    font-family: "Rockwell";
+    src: url("./fonts/ROCK.TTF") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Rockwell";
+    src: url("./fonts/ROCKB.TTF") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
 
     /* ---- color: primitives ---- */
@@ -17,7 +37,8 @@
 
     /* ---- type: font families ---- */
     --font-family-main: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --font-family-secondary: "SF Mono", "Courier New", monospace;
+    --font-family-tertiary: "SF Mono", "Courier New", monospace;
+    --font-family-secondary: "Rockwell", "Rockwell Nova", "Roboto Slab", serif;
 
     /* ---- type: weight ---- */
     --fw-light: 300;
@@ -323,7 +344,7 @@ video {
 .reveal {
     opacity: 0.0;
     transform: translateY(40px);
-    transition: 1.2s ease-in;
+    transition: 0.8s ease-in;
     transition-delay: calc(var(--i, 0) * var(--stagger, 0s));
 }
 
@@ -400,7 +421,7 @@ video {
         z-index: 199;
     }
 
-    .nav-hover-trigger:hover ~ .site-nav,
+    .nav-hover-trigger:hover~.site-nav,
     .site-nav:hover {
         transform: translate(-50%, 0);
     }
@@ -420,7 +441,7 @@ video {
 
 .site-nav-logo-img {
     display: block;
-    height: 28px;
+    height: 40px;
     width: auto;
 }
 
@@ -495,8 +516,6 @@ video {
     align-items: center;
     justify-content: center;
     background: rgba(10, 10, 10, 0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -562,10 +581,12 @@ video {
     display: block;
 }
 
-.site-footer-logo-img {
+.site-footer-logo {
     display: block;
-    height: 36px;
-    width: auto;
+    letter-spacing: 1px;
+    font-size: var(--fs-body-lg);
+    font-family: var(--font-family-secondary);
+    user-select: none;
 }
 
 .site-footer-address {
@@ -759,10 +780,11 @@ video {
     z-index: 1;
     --p-title: clamp(0, calc(var(--p, 0) / 0.5), 1);
     opacity: var(--p-title, 0);
-    transform: translateY(calc((1 - var(--p-title, 0)) * 5vh)) scale(calc(0.50 + var(--p-title, 0) * 0.50));
+    transform: translateY(calc((1 - var(--p-title, 0)) * 8vh));
+    transform-origin: left;
 }
 
-.section-title ~ * .subtitle {
+.section-title~* .subtitle {
     padding-top: 10px;
 }
 
@@ -772,11 +794,11 @@ video {
     z-index: 0;
 }
 
-.title-pin .title-pin-title ~ .highlight-sweep {
+.title-pin .title-pin-title~.highlight-sweep {
     transform: rotateZ(-1deg);
 }
 
-.title-pin--flip .title-pin-title ~ .highlight-sweep {
+.title-pin--flip .title-pin-title~.highlight-sweep {
     transform: rotateZ(1deg);
 }
 
