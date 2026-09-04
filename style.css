@@ -141,12 +141,12 @@
 
 .circle--to-dark {
     background: var(--ink);
-    box-shadow: 0 0 40vmax 40vmax var(--ink);
+    box-shadow: 0 0 40vmax 41vmax var(--ink);
 }
 
 .circle--to-accent {
     background: var(--accent);
-    box-shadow: 0 0 40vmax 40vmax var(--accent);
+    box-shadow: 0 0 40vmax 41vmax var(--accent);
 }
 
 
