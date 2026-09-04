@@ -141,23 +141,22 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 150vmax;
-    height: 150vmax;
+    width: 300vmax;
+    height: 300vmax;
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(var(--p-transition, 0));
     pointer-events: none;
     will-change: transform;
     backface-visibility: hidden;
+    filter: blur(200px);
 }
 
 .circle--to-dark {
     background: var(--ink);
-    box-shadow: 0 0 6vmax 6vmax rgba(5, 5, 5, 1);
 }
 
 .circle--to-accent {
     background: var(--accent);
-    box-shadow: 0 0 6vmax 6vmax var(--accent);
 }
 
 
@@ -184,7 +183,7 @@
     --start: calc(var(--i, 0) * var(--stagger));
     --p-row: clamp(0, calc((var(--p-text, 0) - var(--start)) / var(--span)), 1);
     opacity: var(--p-row, 0);
-    transform: translateY(calc((1 - var(--p-row, 0)) * 20px)) scale(calc(0.50 + var(--p-row, 0) * 0.50));
+    transform: translateY(calc((1 - var(--p-row, 0)) * 5vh)) scale(calc(0.50 + var(--p-row, 0) * 0.50));
 }
 
 .interlude-text {
@@ -193,8 +192,8 @@
     line-height: var(--lh-tight);
 }
 
-.interlude-text p {
-    margin: var(--space-2) 0;
+.interlude-text .interlude-row:not(.eyebrow) {
+    margin-bottom: var(--space-4);
 }
 
 .interlude-text .credentials {
@@ -208,7 +207,6 @@
     flex-direction: column;
     margin: 0;
     font-size: var(--fs-h1-5);
-    margin-top: var(--space-3);
 }
 
 /* ---- RECENTLY HIGHLIGHTED (pin scene per project) ---- */
@@ -232,14 +230,28 @@
 
 .highlight-intro {
     text-align: start;
-    padding-top: 45px;
     opacity: var(--p, 0);
     transform: translateY(calc((1 - var(--p, 0)) * 24px));
 }
 
+.highlight-intro .subtitle a{
+    text-decoration: none;;
+    transition: color 0.3s;
+}
+
+.highlight-intro a:hover{
+    color: var(--accent);
+}
+
 .highlight-intro .eyebrow {
     display: block;
-    margin-top: var(--space-2);
+    margin-top: var(--space-1);
+}
+
+.highlight-intro .eyebrow .cat-link{ transition: color 0.3s;}
+
+.highlight-intro .eyebrow .cat-link:hover{
+    color: var(--accent);
 }
 
 /* 2. the pin scene */
@@ -278,19 +290,51 @@
     margin-bottom: var(--space-3);
 }
 
+/* ---- TITLE PIN (section-title + subtitle reveal) ---- */
+.title-pin {
+    height: 180vh;
+    overflow: clip;
+}
+
+.title-pin .pin-stage {
+    align-items: start;
+}
+
+.title-pin-title {
+    display: inline-block;
+    --p-title: clamp(0, calc(var(--p, 0) / 0.5), 1);
+    opacity: var(--p-title, 0);
+    transform: translateY(calc((1 - var(--p-title, 0)) * 5vh)) scale(calc(0.50 + var(--p-title, 0) * 0.50));
+    position: relative;
+    z-index: 1;
+}
+
+.title-pin .highlight-sweep {
+    --p-line: clamp(0, calc((var(--p, 0) - 0.5) / 0.5), 1);
+    position: relative;
+    z-index: 0;
+}
+
 /* ---- PORTFOLIO CTA ---- */
 .portfolio-cta-section .btn-text {
     margin-top: var(--space-3);
 }
 
-.portfolio-cta-section .btn-text--link::after {
-    content: "";
+.portfolio-cta-section .btn-filler {
+    position: relative;
     display: inline-block;
-    height: var(--fs-h2);
     width: var(--fs-h2);
-    aspect-ratio: 1/1;
-    flex-shrink: 0;
-    background-color: var(--color-text);
+    height: var(--fs-h2);
+    vertical-align: middle;
+}
+
+.portfolio-cta-section .btn-filler::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-bg);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>');
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-position: center;
@@ -298,8 +342,10 @@
     -webkit-mask-size: contain;
     mask-size: contain;
     transition: transform 0.45s ease;
-    position: absolute;
-    bottom: 0;
+}
+
+.portfolio-cta-section .btn-text--link:hover .btn-filler::after {
+    transform: translate(2px, -2px);
 }
 
 /* ---- SERVICES ---- */
@@ -318,7 +364,7 @@
 }
 
 .service-block+.service-block {
-    margin-top: var(--space-7);
+    margin-top: 20vh;
 }
 
 .service-sticky {
@@ -352,7 +398,7 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--color-text-muted);
 }
 
 .services-copy {
@@ -360,7 +406,7 @@
 }
 
 .service-content .services-copy.body-text-light {
-    margin-top: var(--space-2);
+    margin-top: var(--space-3);
 }
 
 .services-copy--label {
@@ -419,7 +465,6 @@
 
 /* NEWS */
 .news {
-    padding-block: var(--space-7);
     overflow: hidden;
 }
 
@@ -479,6 +524,7 @@
     margin-bottom: var(--space-2);
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -667,5 +713,19 @@
 
     .highlight-media {
         width: min(100vw, 1980px);
+    }
+
+    .title-pin {
+        height: auto;
+        min-height: 40vh;
+    }
+
+    .title-pin .pin-stage {
+        position: static;
+    }
+
+    .title-pin-title {
+        opacity: 1;
+        transform: none;
     }
 }

@@ -111,7 +111,7 @@ body {
     background: var(--color-bg);
     color: var(--color-text);
     font-size: var(--fs-body);
-    line-height: var(--lh-normal);
+    line-height: var(--lh-tight);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -683,10 +683,10 @@ video {
 
 .highlight-sweep-fill {
     position: absolute;
-    left: -4%;
+    left: -2%;
     bottom: 0;
-    height: 100%;
-    width: 107%;
+    height: 101%;
+    width: 102%;
     background: var(--accent);
     z-index: 0;
     pointer-events: none;
@@ -718,6 +718,16 @@ video {
     --span: 0.35;
     --start: calc(var(--i, 0) * var(--stagger));
     --p-line: clamp(0, calc((var(--p, 0) - var(--start)) / var(--span)), 1);
+}
+
+/* ---- plain variant: no logo mask, flat accent block, static black text ---- */
+.highlight-sweep--plain .highlight-sweep-fill {
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+.highlight-sweep--plain .highlight-sweep-text {
+    color: var(--color-bg);
 }
 
 /* =========================================================================

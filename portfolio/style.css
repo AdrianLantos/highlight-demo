@@ -162,6 +162,11 @@
     background: #111;
 }
 
+.project-media--full {
+    grid-column: 1 / -1;
+    aspect-ratio: 1 / 2;
+}
+
 .project-media img,
 .project-media video {
     position: absolute;
@@ -218,6 +223,10 @@
     .project-body {
         grid-template-columns: 1fr 1fr;
         gap: var(--space-6);
+    }
+
+    .project-media--full {
+        aspect-ratio: 16 / 9;
     }
 }
 
