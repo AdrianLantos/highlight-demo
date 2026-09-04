@@ -13,13 +13,6 @@
     --p-transition: clamp(0, calc((var(--p, 0) - 0.6) / 0.4), 1);
 }
 
-.hero-heading {
-    font-size: var(--fs-h1);
-    font-weight: var(--fw-medium);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--ls-tight);
-}
-
 .hero-row {
     display: block;
 }
@@ -121,10 +114,6 @@
 }
 
 .contact-heading {
-    font-size: var(--fs-h1);
-    font-weight: var(--fw-medium);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--ls-tight);
     color: var(--color-bg);
 }
 
@@ -141,22 +130,23 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 300vmax;
-    height: 300vmax;
+    width: 150vmax;
+    height: 150vmax;
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(var(--p-transition, 0));
     pointer-events: none;
     will-change: transform;
     backface-visibility: hidden;
-    filter: blur(200px);
 }
 
 .circle--to-dark {
     background: var(--ink);
+    box-shadow: 0 0 40vmax 40vmax var(--ink);
 }
 
 .circle--to-accent {
     background: var(--accent);
+    box-shadow: 0 0 40vmax 40vmax var(--accent);
 }
 
 
@@ -245,7 +235,6 @@
 
 .highlight-intro .eyebrow {
     display: block;
-    margin-top: var(--space-1);
 }
 
 .highlight-intro .eyebrow .cat-link{ transition: color 0.3s;}
@@ -288,31 +277,6 @@
 
 .highlight-copy-text {
     margin-bottom: var(--space-3);
-}
-
-/* ---- TITLE PIN (section-title + subtitle reveal) ---- */
-.title-pin {
-    height: 180vh;
-    overflow: clip;
-}
-
-.title-pin .pin-stage {
-    align-items: start;
-}
-
-.title-pin-title {
-    display: inline-block;
-    --p-title: clamp(0, calc(var(--p, 0) / 0.5), 1);
-    opacity: var(--p-title, 0);
-    transform: translateY(calc((1 - var(--p-title, 0)) * 5vh)) scale(calc(0.50 + var(--p-title, 0) * 0.50));
-    position: relative;
-    z-index: 1;
-}
-
-.title-pin .highlight-sweep {
-    --p-line: clamp(0, calc((var(--p, 0) - 0.5) / 0.5), 1);
-    position: relative;
-    z-index: 0;
 }
 
 /* ---- PORTFOLIO CTA ---- */
@@ -370,6 +334,10 @@
 .service-sticky {
     top: 12vh;
     align-self: start;
+}
+
+.service-sticky p{
+    color: var(--color-text)
 }
 
 .service-title {
@@ -479,6 +447,7 @@
 }
 
 .news-carousel {
+    --stagger: 150ms;
     display: flex;
     gap: var(--space-4);
     overflow-x: auto;
@@ -715,17 +684,4 @@
         width: min(100vw, 1980px);
     }
 
-    .title-pin {
-        height: auto;
-        min-height: 40vh;
-    }
-
-    .title-pin .pin-stage {
-        position: static;
-    }
-
-    .title-pin-title {
-        opacity: 1;
-        transform: none;
-    }
 }
