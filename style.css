@@ -613,14 +613,17 @@
         opacity: 1;
         transform: translateY(0);
     }
-}
 
-@media screen and (max-width: 1023px) {
-    .highlight-media {
+     .highlight-media {
         aspect-ratio: 9 / 16;
         --start-scale: 0.55;
     }
+
+    .portfolio-cta-section.title-pin{
+        margin-bottom: 35vh;
+    }
 }
+
 
 @media (min-width: 480px) {
     .logos-grid {
