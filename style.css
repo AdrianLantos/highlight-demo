@@ -219,8 +219,6 @@
 
 .highlight-intro {
     text-align: start;
-    opacity: var(--p, 0);
-    transform: translateY(calc((1 - var(--p, 0)) * 24px));
 }
 
 .highlight-intro .subtitle a {
@@ -316,10 +314,6 @@
 /* ---- SERVICES ---- */
 .service-section-title {
     padding-bottom: 45px;
-}
-
-.services {
-    padding-block: var(--space-7);
 }
 
 .service-block {
@@ -597,6 +591,28 @@
         transform: none !important;
         transition: none !important;
     }
+
+    /* interlude-pin: one-shot reveal instead of continuous scroll-scrub */
+    .interlude-pin {
+        height: auto;
+        min-height: 60vh;
+    }
+
+    .interlude-pin .pin-stage {
+        position: static;
+    }
+
+    .interlude-row {
+        opacity: 0;
+        transform: translateY(8vh);
+        transition: opacity 0.8s ease-in, transform 0.8s ease-in;
+        transition-delay: calc(var(--i, 0) * 150ms);
+    }
+
+    .interlude-pin.is-in .interlude-row {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media screen and (max-width: 1023px) {
@@ -693,11 +709,6 @@
     }
 
     .interlude-row {
-        opacity: 1;
-        transform: none;
-    }
-
-    .highlight-intro {
         opacity: 1;
         transform: none;
     }

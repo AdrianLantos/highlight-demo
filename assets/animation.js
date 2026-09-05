@@ -36,6 +36,8 @@
 
     var items = [];
     var ticking = false;
+    var revealObservers = {};
+    var isMobileViewport = window.matchMedia('(max-width: 1023px)').matches;
 
     function update() {
         ticking = false;
@@ -56,6 +58,10 @@
     }
 
     function register(el) {
+        if (isMobileViewport && el.getAttribute('data-scroll-mobile-fallback') === 'reveal') {
+            registerReveal(el, revealObservers);
+            return;
+        }
         var item = {
             el: el,
             mode: el.getAttribute('data-scroll-progress') === 'pin' ? 'pin' : 'track',
@@ -105,7 +111,6 @@
         observers[key].observe(el);
     }
 
-    var revealObservers = {};
     var revealEls = document.querySelectorAll('.reveal');
     revealEls.forEach(function (el) { registerReveal(el, revealObservers); });
 
