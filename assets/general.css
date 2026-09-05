@@ -238,6 +238,7 @@ video {
     font-size: var(--fs-small);
     color: var(--color-text);
     margin: var(--space-2) 0;
+    line-height: 19px;
 }
 
 /* =========================================================================
@@ -534,7 +535,7 @@ video {
 }
 
 .nav-modal-links a {
-    font-family: var(--font-family-main);
+    font-family: var(--font-family-secondary);
     font-size: var(--fs-h2);
     font-weight: var(--fw-medium);
     letter-spacing: var(--ls-tight);
