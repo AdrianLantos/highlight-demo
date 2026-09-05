@@ -5,7 +5,7 @@
 @font-face {
     font-family: "Rockwell";
     src: url("./fonts/ROCK.woff2") format("woff2"),
-         url("./fonts/ROCK.TTF") format("truetype");
+        url("./fonts/ROCK.TTF") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -14,7 +14,7 @@
 @font-face {
     font-family: "Rockwell";
     src: url("./fonts/ROCKB.woff2") format("woff2"),
-         url("./fonts/ROCKB.TTF") format("truetype");
+        url("./fonts/ROCKB.TTF") format("truetype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -244,9 +244,11 @@ video {
 }
 
 
-.eyebrow .cat-link{ transition: color 0.3s;}
+.eyebrow .cat-link {
+    transition: color 0.3s;
+}
 
-.eyebrow .cat-link:hover{
+.eyebrow .cat-link:hover {
     color: var(--accent);
 }
 
@@ -366,6 +368,7 @@ video {
 .filler {
     pointer-events: none;
     user-select: none;
+    -moz-user-select: none;
 }
 
 .flex-row {
@@ -597,6 +600,7 @@ video {
     font-size: var(--fs-body-lg);
     font-family: var(--font-family-secondary);
     user-select: none;
+    -moz-user-select: none;
 }
 
 .site-footer-address {
@@ -735,6 +739,8 @@ video {
     -webkit-mask-size: cover;
     mask-size: cover;
     clip-path: inset(0 calc(100% - var(--p-line, 0) * 100%) 0 0);
+    -moz-user-select: none;
+    user-select: none;
 }
 
 .highlight-sweep-text {
@@ -820,6 +826,10 @@ video {
 
 .title-pin--flip .title-pin-title~.subtitle {
     transform: rotateZ(1deg);
+}
+
+.title-pin .highlight-sweep {
+    margin: 3px;
 }
 
 /* =========================================================================

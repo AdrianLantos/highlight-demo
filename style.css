@@ -280,6 +280,11 @@
 .portfolio-cta-section .btn-text--link {
     margin-top: var(--space-3);
     color: var(--color-bg);
+    margin-top: 0px;
+}
+
+.portfolio-cta-section .highlight-sweep-words {
+    line-height: 1.2;
 }
 
 .portfolio-cta-section .btn-filler {
@@ -477,6 +482,7 @@
     background: #111;
     margin-bottom: var(--space-3);
     user-select: none;
+    -moz-user-select: none;
     pointer-events: none;
 }
 
