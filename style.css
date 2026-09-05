@@ -246,17 +246,18 @@
 
 .highlight-media {
     position: relative;
-    --start-w: calc(min(100vw, var(--container-max)) - (2 * var(--container-padding)));
-    --target-w: 100vw;
-    --p-range: var(--p);
-    width: calc(var(--start-w) + var(--p-range, 0) * (var(--target-w) - var(--start-w)));
-    margin-inline: auto;
+    width: 100vw;
     aspect-ratio: 16 / 9;
+    --start-w: calc(min(100vw, var(--container-max)) - (2 * var(--container-padding)));
+    --start-scale: calc(var(--start-w) / 100vw);
+    --scale: calc(var(--start-scale) + var(--p, 0) * (1 - var(--start-scale)));
+    transform: scale(var(--scale));
+    transform-origin: center;
     overflow: hidden;
     border-radius: var(--radius-md);
     background: #111;
     contain: layout paint;
-    will-change: width;
+    will-change: transform;
 }
 
 /* 3. copy + button */
@@ -573,11 +574,10 @@
     }
 }
 
-@media screen and (max-width: 785px) {
+@media screen and (max-width: 1023px) {
     .highlight-media {
-        --target-w: min(100vw, 1980px);
         aspect-ratio: 9 / 16;
-        width: calc(220px + var(--p, 0) * (var(--target-w) - 220px));
+        --start-scale: 0.55;
     }
 }
 
@@ -687,7 +687,7 @@
     }
 
     .highlight-media {
-        width: min(100vw, 1980px);
+        transform: none;
     }
 
 }
