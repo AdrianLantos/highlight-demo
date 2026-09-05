@@ -33,6 +33,26 @@
 .portfolio-media {
     position: absolute;
     inset: 0;
+    z-index: 0;
+}
+
+/* ---- duo-tone hover: grayscale + multiply the image, then multiply an
+   accent-colored overlay on top; caption sits in a later sibling so it's
+   never touched by the tint ---- */
+.portfolio-media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: #ffc800;
+    mix-blend-mode: color;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+a.portfolio-item:hover .portfolio-media::before {
+    opacity: 1;
 }
 
 .portfolio-media img,
@@ -41,12 +61,14 @@
     height: 100%;
     object-fit: cover;
     object-position: var(--media-focus, 50% 50%);
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease, filter 0.4s ease;
 }
 
-.portfolio-item:hover .portfolio-media img,
-.portfolio-item:hover .portfolio-media video {
-    transform: scale(1.04);
+a.portfolio-item:hover .portfolio-media img,
+a.portfolio-item:hover .portfolio-media video {
+    transform: scale(1.1);
+    filter: grayscale(100%);
+    mix-blend-mode: multiply;
 }
 
 .portfolio-flavor {
@@ -57,14 +79,12 @@
     padding: var(--space-3);
     background: none;
     border-radius: 0;
+
 }
 
 .portfolio-flavor p {
     max-width: 24ch;
-}
-
-.portfolio-flavor--lorem p {
-    opacity: 0.5;
+    font-size: var(--fs-h2);
 }
 
 .portfolio-visual {
@@ -138,7 +158,7 @@
     transition: 0.3s ease-in-out;
 }
 
-.project-back:hover{
+.project-back:hover {
     color: var(--accent);
 }
 
@@ -218,7 +238,7 @@
     .portfolio-grid {
         grid-template-columns: repeat(2, 1fr);
         grid-auto-rows: 280px;
-        gap: var(--space-4);
+        gap: var(--space-3);
     }
 
     .span-col-2 {
@@ -237,7 +257,7 @@
 
 @media (min-width: 1200px) {
     .portfolio-grid {
-        grid-template-columns: repeat(4, 1fr);
-        grid-auto-rows: 300px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 450px;
     }
 }

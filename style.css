@@ -9,8 +9,8 @@
     gap: var(--space-3);
     text-align: center;
     padding-inline: var(--container-padding);
-    --p-words: clamp(0, calc(var(--p, 0) / 0.5), 1);
-    --p-transition: clamp(0, calc((var(--p, 0) - 0.65) / 0.35), 1);
+    --p-words: clamp(0, calc(var(--p, 0) / 0.85), 1);
+    --p-transition: clamp(0, calc((var(--p, 0) - 0.87) / 0.13), 1);
 }
 
 .hero-row {
@@ -94,7 +94,7 @@
 /* ---- CONTACT ---- */
 
 .contact {
-    height: 250vh;
+    height: 150vh;
 }
 
 .contact *::selection {
@@ -112,7 +112,7 @@
     gap: var(--space-3);
     text-align: center;
     padding-inline: var(--container-padding);
-    --p-transition: var(--p, 0);
+    --p-transition: clamp(0, calc(var(--p, 0) / 0.65), 1);
 }
 
 .contact-heading,
@@ -178,7 +178,7 @@
     transform-origin: left;
 }
 
-.interlude-row.eyebrow{
+.interlude-row.eyebrow {
     margin-bottom: var(--space-4);
 }
 
@@ -206,9 +206,6 @@
 }
 
 /* ---- RECENTLY HIGHLIGHTED (pin scene per project) ---- */
-.highlight-recent {
-    padding-block: var(--space-7);
-}
 
 .highlight-project {
     margin-top: var(--space-7);
@@ -226,12 +223,13 @@
     transform: translateY(calc((1 - var(--p, 0)) * 24px));
 }
 
-.highlight-intro .subtitle a{
-    text-decoration: none;;
+.highlight-intro .subtitle a {
+    text-decoration: none;
+    ;
     transition: color 0.3s;
 }
 
-.highlight-intro a:hover{
+.highlight-intro a:hover {
     color: var(--accent);
 }
 
@@ -339,7 +337,7 @@
     align-self: start;
 }
 
-.service-sticky p{
+.service-sticky p {
     color: var(--color-text)
 }
 
@@ -387,10 +385,6 @@
 }
 
 /* ---- CLIENT LOGOS ---- */
-
-.logos {
-    padding-block: var(--space-7);
-}
 
 .logos-section-title {
     padding-bottom: 45px;
@@ -446,16 +440,18 @@
     transform: translateX(-50%);
     margin-top: var(--space-4);
     overflow-x: auto;
+    overflow-y: hidden;
     --content-inset: max(var(--container-padding), calc((100vw - var(--container-max)) / 2 + var(--container-padding)));
 }
 
 .news-carousel {
-    --stagger: 150ms;
+    --stagger: 250ms;
     display: flex;
     padding-bottom: 40px;
     height: fit-content;
     gap: var(--space-4);
     overflow-x: auto;
+    overflow-y: hidden;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
@@ -473,6 +469,26 @@
     flex: 0 0 auto;
     width: min(280px, 80vw);
     scroll-snap-align: start;
+    overflow: hidden;
+}
+
+/* the reveal transform lives on this inner wrapper, not .news-card itself,
+   so the sliding/fading content can never expand .news-carousel's
+   scrollable overflow while it's animating in */
+.news-card-inner {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: 0.8s ease-in;
+    transition-delay: calc(var(--i, 0) * var(--stagger, 0s));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.news-carousel.is-in .news-card-inner {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .news-card-media {
@@ -497,10 +513,12 @@
     min-height: calc(var(--lh-normal) * 2em);
     margin-bottom: var(--space-2);
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: var(--color-text);
+    font-weight: var(--fw-medium);
 }
 
 .news-carousel-controls {
@@ -538,7 +556,7 @@
     -webkit-mask-size: contain;
     mask-size: contain;
     transition: 0.2s ease-in-out;
-     background-color: var(--accent);
+    background-color: var(--accent);
 }
 
 .news-carousel-btn--prev::after {
@@ -572,8 +590,9 @@
 }
 
 @media (max-width: 1023px) {
+
     /* no scroll-triggered reveal on mobile/tablet: cards are always visible */
-    .news-card.reveal {
+    .news-card-inner {
         opacity: 1 !important;
         transform: none !important;
         transition: none !important;
