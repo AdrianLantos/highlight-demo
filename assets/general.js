@@ -16,6 +16,8 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
     duration: 1.8,
   });
 
+  window.lenis = lenis;
+
 })();
 
 // ---- nav reveal-on-scroll-up ----
@@ -31,6 +33,7 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
 
   function update() {
     ticking = false;
+    if (document.body.classList.contains("nav-modal-open")) return;
     var y = window.scrollY;
 
     if (y < revealThreshold) {
@@ -60,20 +63,26 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
 
   var toggle = document.getElementById("navToggle");
   var modal = document.getElementById("navModal");
+  var nav = document.getElementById("siteNav");
   if (!toggle || !modal) return;
 
   function closeMenu() {
     toggle.setAttribute("aria-expanded", "false");
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("nav-modal-open");
     document.body.style.overflow = "";
+    if (window.lenis) window.lenis.start();
   }
 
   function openMenu() {
     toggle.setAttribute("aria-expanded", "true");
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("nav-modal-open");
     document.body.style.overflow = "hidden";
+    if (window.lenis) window.lenis.stop();
+    if (nav) nav.classList.add("is-visible");
   }
 
   toggle.addEventListener("click", function () {

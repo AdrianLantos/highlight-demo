@@ -241,6 +241,13 @@ video {
     line-height: 19px;
 }
 
+
+.eyebrow .cat-link{ transition: color 0.3s;}
+
+.eyebrow .cat-link:hover{
+    color: var(--accent);
+}
+
 /* =========================================================================
    BUTTONS
    ========================================================================= */
@@ -715,10 +722,7 @@ video {
 
 .highlight-sweep-fill {
     position: absolute;
-    left: -1%;
-    bottom: -2%;
-    height: 102%;
-    width: 102%;
+    inset: -0.05em -0.3em;
     background: var(--accent);
     z-index: 0;
     pointer-events: none;
@@ -752,6 +756,19 @@ video {
     --p-line: clamp(0, calc((var(--p, 0) - var(--start)) / var(--span)), 1);
 }
 
+/* ---- multi-word variant: each word-group gets its own sweep/mask so it
+   still reads as one continuous sweep when unwrapped, but keeps working
+   correctly if later words wrap onto a new line ---- */
+.highlight-sweep-words {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+}
+
+.highlight-sweep-words .highlight-sweep {
+    --p-line: clamp(0, calc((var(--p-group, var(--p, 0)) - var(--start, 0)) / var(--span, 1)), 1);
+}
+
 /* ---- plain variant: no logo mask, flat accent block, static black text ---- */
 .highlight-sweep--plain .highlight-sweep-fill {
     -webkit-mask-image: none;
@@ -767,7 +784,7 @@ video {
    ========================================================================= */
 
 .title-pin {
-    height: 180vh;
+    height: 150vh;
     overflow: clip;
 }
 
@@ -789,17 +806,17 @@ video {
     padding-top: 10px;
 }
 
-.title-pin .highlight-sweep {
-    --p-line: clamp(0, calc((var(--p, 0) - 0.5) / 0.5), 1);
-    position: relative;
-    z-index: 0;
+.title-pin .highlight-sweep-words {
+    --p-group: clamp(0, calc((var(--p, 0) - 0.5) / 0.5), 1);
 }
 
-.title-pin .title-pin-title~.highlight-sweep {
+.title-pin .title-pin-title~.subtitle {
+    position: relative;
+    z-index: 0;
     transform: rotateZ(-1deg);
 }
 
-.title-pin--flip .title-pin-title~.highlight-sweep {
+.title-pin--flip .title-pin-title~.subtitle {
     transform: rotateZ(1deg);
 }
 

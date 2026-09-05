@@ -88,19 +88,21 @@
 
     function registerReveal(el, observers) {
         var thresholdVal = el.dataset.revealThreshold || '0.6';
+        var rootMarginVal = el.dataset.revealRootMargin || '0px';
+        var key = thresholdVal + '__' + rootMarginVal;
 
-        if (!observers[thresholdVal]) {
-            observers[thresholdVal] = new IntersectionObserver(function (entries, observer) {
+        if (!observers[key]) {
+            observers[key] = new IntersectionObserver(function (entries, observer) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-in');
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: parseFloat(thresholdVal) });
+            }, { threshold: parseFloat(thresholdVal), rootMargin: rootMarginVal });
         }
 
-        observers[thresholdVal].observe(el);
+        observers[key].observe(el);
     }
 
     var revealObservers = {};

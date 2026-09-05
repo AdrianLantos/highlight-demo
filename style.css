@@ -218,10 +218,6 @@
     margin-top: 35vh;
 }
 
-.highlight-cta {
-    margin-top: 10vh;
-}
-
 /* 1. intro */
 
 .highlight-intro {
@@ -241,12 +237,6 @@
 
 .highlight-intro .eyebrow {
     display: block;
-}
-
-.highlight-intro .eyebrow .cat-link{ transition: color 0.3s;}
-
-.highlight-intro .eyebrow .cat-link:hover{
-    color: var(--accent);
 }
 
 /* 2. the pin scene */
@@ -286,8 +276,9 @@
 }
 
 /* ---- PORTFOLIO CTA ---- */
-.portfolio-cta-section .btn-text {
+.portfolio-cta-section .btn-text--link {
     margin-top: var(--space-3);
+    color: var(--color-bg);
 }
 
 .portfolio-cta-section .btn-filler {
@@ -570,6 +561,15 @@
 @media (max-width: 767px) {
     .news-carousel-controls {
         display: none;
+    }
+}
+
+@media (max-width: 1023px) {
+    /* no scroll-triggered reveal on mobile/tablet: cards are always visible */
+    .news-card.reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
     }
 }
 
