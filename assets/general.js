@@ -11,7 +11,6 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
     autoToggle: true,
     anchors: true,
     allowNestedScroll: true,
-    naiveDimensions: true,
     stopInertiaOnNavigate: true,
     duration: 1.8,
   });
