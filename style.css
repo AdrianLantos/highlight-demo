@@ -125,7 +125,19 @@ body.is-dimmed {
     gap: var(--space-3);
     text-align: center;
     padding-inline: var(--container-padding);
-    --p-transition: clamp(0, calc(var(--p, 0) / 0.65), 1);
+}
+
+.contact-dimmer-anchor {
+    position: absolute;
+    top: 15%;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+}
+
+body.is-dimmed-accent {
+    background-color: var(--accent);
 }
 
 .contact-heading,
@@ -144,25 +156,6 @@ body.is-dimmed {
     font-size: var(--fs-body);
     font-family: var(--font-family-main);
 }
-
-/* Circle Transition */
-
-.dimmer {
-    position: absolute;
-    inset: 0;
-    opacity: var(--p-transition, 0);
-    pointer-events: none;
-    will-change: opacity;
-}
-
-.dimmer--dark {
-    background: var(--ink);
-}
-
-.dimmer--accent {
-    background: var(--accent);
-}
-
 
 /* Interlude Sections */
 
@@ -587,6 +580,10 @@ body.is-dimmed {
     cursor: default;
 }
 
+.site-footer{
+    background-color: transparent;
+}
+
 /* =========================================================================
    RESPONSIVE
    ========================================================================= */
@@ -680,8 +677,8 @@ body.is-dimmed {
 
 @media (prefers-reduced-motion: reduce) {
 
-    .dimmer {
-        display: none;
+    body {
+        transition: none;
     }
 
     .hero {
