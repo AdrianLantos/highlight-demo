@@ -87,12 +87,6 @@
 
     if (progressEls.length) {
         window.addEventListener('scroll', requestUpdate, { passive: true });
-
-        var resizeTimer;
-        window.addEventListener('resize', function () {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(requestUpdate, 150);
-        }, { passive: true });
     }
 
     // ---- reveal tier (one-shot) ----
