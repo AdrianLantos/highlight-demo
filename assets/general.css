@@ -356,7 +356,7 @@ video {
 .reveal {
     opacity: 0.0;
     transform: translateY(40px);
-    transition: 0.8s ease-in;
+    transition: 0.4s ease-in;
     transition-delay: calc(var(--i, 0) * var(--stagger, 0s));
 }
 
@@ -869,11 +869,11 @@ video {
    MOBILE (one-shot reveal instead of continuous scroll-scrub)
    ========================================================================= */
 
-@media (max-width: 1023px) {
+@media (max-width: 1025px) {
 
     .title-pin {
         height: auto;
-        margin: 35vh 0 10vh 0;
+        margin: 15vh 0 5vh 0;
     }
     
     .title-pin .pin-stage {
