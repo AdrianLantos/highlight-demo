@@ -103,7 +103,7 @@
     margin-top: var(--space-4);
     opacity: calc(1 - var(--p-words, 0) * 6);
     position: absolute;
-    bottom: 10vh;
+    bottom: 10svh;
     font-weight: 600;
 }
 
@@ -230,7 +230,7 @@
 }
 
 .highlight-project+.highlight-project {
-    margin-top: 35vh;
+    margin-top: 35svh;
 }
 
 /* 1. intro */
@@ -255,7 +255,7 @@
 
 /* 2. the pin scene */
 .highlight-pin {
-    height: 180vh;
+    height: 180svh;
 }
 
 .highlight-media {
@@ -341,7 +341,7 @@
 }
 
 .service-block+.service-block {
-    margin-top: 20vh;
+    margin-top: 20svh;
 }
 
 .service-sticky {
@@ -703,7 +703,7 @@
 
     .contact-stage {
         position: relative;
-        background: linear-gradient(to bottom, var(--ink), var(--accent) 25vh);
+        background: linear-gradient(to bottom, var(--ink), var(--accent) 25svh);
     }
 
     .hero-stage::after {
