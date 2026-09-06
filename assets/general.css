@@ -84,6 +84,35 @@
     --radius-sm: 4px;
     --radius-md: 12px;
     --radius-full: 999px;
+
+    /* ---- stable viewport unit (1% of an assumed device height) ----
+       Fixed px, not svh: keyed off WIDTH (immune to the URL bar, which only
+       changes height) to guess a device class, then assigns a flat constant
+       that can never be recalculated by the browser for any reason. Falls
+       back to the real 1svh past phone-width ranges, where there's no
+       known jump to work around and a guessed height would only hurt fit. */
+    --vh: 1svh;
+}
+
+@media (max-width: 380px) and (pointer: coarse) {
+    :root {
+        --vh: 6.67px;
+        /* ~667px — iPhone SE/8, small Android phones */
+    }
+}
+
+@media (min-width: 381px) and (max-width: 430px) and (pointer: coarse) {
+    :root {
+        --vh: 8.44px;
+        /* ~844px — iPhone 12–15 standard, most modern Android phones */
+    }
+}
+
+@media (min-width: 431px) and (max-width: 600px) and (pointer: coarse) {
+    :root {
+        --vh: 9.26px;
+        /* ~926px — iPhone Pro Max / Plus, large phablets */
+    }
 }
 
 /* ---- desktop ---- */
@@ -317,7 +346,7 @@ video {
 .pin-stage {
     position: sticky;
     top: 0;
-    height: 100svh;
+    height: calc(var(--vh) * 100);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -346,7 +375,7 @@ video {
 
 .scroll-anchor {
     position: absolute;
-    bottom: 100svh;
+    bottom: calc(var(--vh) * 100);
     left: 0;
     width: 1px;
     height: 1px;
@@ -792,7 +821,7 @@ video {
    ========================================================================= */
 
 .title-pin {
-    height: 140svh;
+    height: calc(var(--vh) * 140);
     overflow: clip;
 }
 
@@ -806,7 +835,7 @@ video {
     z-index: 1;
     --p-title: clamp(0, calc(var(--p, 0) / 0.5), 1);
     opacity: var(--p-title, 0);
-    transform: translateY(calc((1 - var(--p-title, 0)) * 8svh));
+    transform: translateY(calc((1 - var(--p-title, 0)) * var(--vh) * 8));
     transform-origin: left;
 }
 
@@ -873,7 +902,7 @@ video {
 
     .title-pin {
         height: auto;
-        margin: 15svh 0 5svh 0;
+        margin: calc(var(--vh) * 15) 0 calc(var(--vh) * 5) 0;
     }
     
     .title-pin .pin-stage {
@@ -929,7 +958,7 @@ video {
 
     .title-pin {
         height: auto;
-        min-height: 40svh;
+        min-height: calc(var(--vh) * 40);
     }
 
     .title-pin .pin-stage {

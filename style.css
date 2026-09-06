@@ -103,14 +103,14 @@
     margin-top: var(--space-4);
     opacity: calc(1 - var(--p-words, 0) * 6);
     position: absolute;
-    bottom: 10svh;
+    bottom: calc(var(--vh) * 10);
     font-weight: 600;
 }
 
 /* ---- CONTACT ---- */
 
 .contact {
-    height: 150svh;
+    height: calc(var(--vh) * 150);
     overflow: clip;
 }
 
@@ -171,9 +171,9 @@
 /* Interlude Sections */
 
 .interlude-pin {
-    height: 200svh;
+    height: calc(var(--vh) * 200);
     overflow: clip;
-    box-shadow: 0px -10px 10svh 10svh var(--ink);
+    box-shadow: 0px -10px calc(var(--vh) * 10) calc(var(--vh) * 10) var(--ink);
 }
 
 .interlude-pin .pin-stage {
@@ -192,7 +192,7 @@
     --start: calc(var(--i, 0) * var(--stagger));
     --p-row: clamp(0, calc((var(--p-text, 0) - var(--start)) / var(--span)), 1);
     opacity: var(--p-row, 0);
-    transform: translateY(calc((1 - var(--p-row, 0)) * 8svh));
+    transform: translateY(calc((1 - var(--p-row, 0)) * var(--vh) * 8));
     transform-origin: left;
 }
 
@@ -230,7 +230,7 @@
 }
 
 .highlight-project+.highlight-project {
-    margin-top: 35svh;
+    margin-top: calc(var(--vh) * 35);
 }
 
 /* 1. intro */
@@ -255,7 +255,7 @@
 
 /* 2. the pin scene */
 .highlight-pin {
-    height: 180svh;
+    height: calc(var(--vh) * 180);
 }
 
 .highlight-media {
@@ -341,11 +341,11 @@
 }
 
 .service-block+.service-block {
-    margin-top: 20svh;
+    margin-top: calc(var(--vh) * 20);
 }
 
 .service-sticky {
-    top: 12svh;
+    top: calc(var(--vh) * 12);
     align-self: start;
 }
 
@@ -614,7 +614,7 @@
     /* interlude-pin: one-shot reveal instead of continuous scroll-scrub */
     .interlude-pin {
         height: auto;
-        min-height: 60svh;
+        min-height: calc(var(--vh) * 60);
     }
 
     .interlude-pin .pin-stage {
@@ -623,7 +623,7 @@
 
     .interlude-row {
         opacity: 0;
-        transform: translateY(8svh);
+        transform: translateY(calc(var(--vh) * 8));
         transition: opacity 0.8s ease-in, transform 0.8s ease-in;
         transition-delay: calc(var(--i, 0) * 150ms);
     }
@@ -643,11 +643,11 @@
     }
 
     #more-work{
-        bottom: 30svh;
+        bottom: calc(var(--vh) * 30);
     }
 
     .portfolio-cta-section.title-pin {
-        margin-bottom: 15svh;
+        margin-bottom: calc(var(--vh) * 15);
     }
 }
 
@@ -703,7 +703,7 @@
 
     .contact-stage {
         position: relative;
-        background: linear-gradient(to bottom, var(--ink), var(--accent) 25svh);
+        background: linear-gradient(to bottom, var(--ink), var(--accent) calc(var(--vh) * 25));
     }
 
     .hero-stage::after {
@@ -712,7 +712,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        height: 25svh;
+        height: calc(var(--vh) * 25);
         pointer-events: none;
         background: linear-gradient(to bottom, transparent, var(--ink));
     }
@@ -727,7 +727,7 @@
 
     .interlude-pin {
         height: auto;
-        min-height: 60svh;
+        min-height: calc(var(--vh) * 60);
     }
 
     .interlude-pin .pin-stage {
