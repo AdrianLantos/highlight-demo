@@ -57,23 +57,8 @@ body.is-dimmed {
     --start: calc(var(--i, 0) * var(--stagger));
     --p-word: clamp(0, calc((var(--p-words, 0) - var(--start)) / var(--span)), 1);
     z-index: 0;
-}
-
-.hero-word--blur::after {
-    content: "";
-    position: absolute;
-    inset: -0.08em -0.1em;
-    z-index: 1;
-    background: var(--color-bg);
-    box-shadow: 0 0 0.5em 0.35em var(--color-bg);
-    opacity: calc(1 - var(--p-word, 0));
-    pointer-events: none;
+    opacity: var(--p-word);
     will-change: opacity;
-}
-
-body.is-dimmed .hero-word--blur::after{
-    background-color: var(--ink);
-    box-shadow: 0 0 0.5em 0.35em var(--ink);
 }
 
 .hero-word--highlight {
