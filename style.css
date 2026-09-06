@@ -1,7 +1,7 @@
 /* ---- HERO ---- */
 
 .hero {
-    height: 200dvh;
+    height: 200svh;
 }
 
 .hero-stage {
@@ -110,7 +110,7 @@
 /* ---- CONTACT ---- */
 
 .contact {
-    height: 150dvh;
+    height: 150svh;
     overflow: clip;
 }
 
@@ -171,9 +171,9 @@
 /* Interlude Sections */
 
 .interlude-pin {
-    height: 200vh;
+    height: 200svh;
     overflow: clip;
-    box-shadow: 0px -10px 10dvh 10dvh var(--ink);
+    box-shadow: 0px -10px 10svh 10svh var(--ink);
 }
 
 .interlude-pin .pin-stage {
@@ -192,7 +192,7 @@
     --start: calc(var(--i, 0) * var(--stagger));
     --p-row: clamp(0, calc((var(--p-text, 0) - var(--start)) / var(--span)), 1);
     opacity: var(--p-row, 0);
-    transform: translateY(calc((1 - var(--p-row, 0)) * 8vh));
+    transform: translateY(calc((1 - var(--p-row, 0)) * 8svh));
     transform-origin: left;
 }
 
@@ -345,7 +345,7 @@
 }
 
 .service-sticky {
-    top: 12vh;
+    top: 12svh;
     align-self: start;
 }
 
@@ -614,7 +614,7 @@
     /* interlude-pin: one-shot reveal instead of continuous scroll-scrub */
     .interlude-pin {
         height: auto;
-        min-height: 60vh;
+        min-height: 60svh;
     }
 
     .interlude-pin .pin-stage {
@@ -623,7 +623,7 @@
 
     .interlude-row {
         opacity: 0;
-        transform: translateY(8vh);
+        transform: translateY(8svh);
         transition: opacity 0.8s ease-in, transform 0.8s ease-in;
         transition-delay: calc(var(--i, 0) * 150ms);
     }
@@ -643,11 +643,11 @@
     }
 
     #more-work{
-        bottom: 30vh;
+        bottom: 30svh;
     }
 
     .portfolio-cta-section.title-pin {
-        margin-bottom: 15vh;
+        margin-bottom: 15svh;
     }
 }
 
@@ -712,7 +712,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        height: 25vh;
+        height: 25svh;
         pointer-events: none;
         background: linear-gradient(to bottom, transparent, var(--ink));
     }
@@ -727,7 +727,7 @@
 
     .interlude-pin {
         height: auto;
-        min-height: 60vh;
+        min-height: 60svh;
     }
 
     .interlude-pin .pin-stage {

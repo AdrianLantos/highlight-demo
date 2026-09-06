@@ -317,7 +317,7 @@ video {
 .pin-stage {
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: 100svh;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -346,7 +346,7 @@ video {
 
 .scroll-anchor {
     position: absolute;
-    bottom: 100dvh;
+    bottom: 100svh;
     left: 0;
     width: 1px;
     height: 1px;
@@ -792,7 +792,7 @@ video {
    ========================================================================= */
 
 .title-pin {
-    height: 140vh;
+    height: 140svh;
     overflow: clip;
 }
 
@@ -806,7 +806,7 @@ video {
     z-index: 1;
     --p-title: clamp(0, calc(var(--p, 0) / 0.5), 1);
     opacity: var(--p-title, 0);
-    transform: translateY(calc((1 - var(--p-title, 0)) * 8vh));
+    transform: translateY(calc((1 - var(--p-title, 0)) * 8svh));
     transform-origin: left;
 }
 
@@ -873,7 +873,7 @@ video {
 
     .title-pin {
         height: auto;
-        margin: 15vh 0 5vh 0;
+        margin: 15svh 0 5svh 0;
     }
     
     .title-pin .pin-stage {
@@ -929,7 +929,7 @@ video {
 
     .title-pin {
         height: auto;
-        min-height: 40vh;
+        min-height: 40svh;
     }
 
     .title-pin .pin-stage {
