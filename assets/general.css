@@ -115,6 +115,25 @@
     }
 }
 
+/* Tablets: portrait-only. A real phone is never wider than ~430px in
+   portrait, so 601px+ here is unambiguously a tablet — but width alone
+   can't tell a phone in landscape (up to ~926px wide) apart from a tablet
+   in portrait, so landscape is deliberately left on the real 1svh below
+   rather than guessing wrong. */
+@media (min-width: 601px) and (max-width: 834px) and (orientation: portrait) and (pointer: coarse) {
+    :root {
+        --vh: 11.8px;
+        /* ~1180px — iPad mini/10.2"/Air/Pro 11" portrait */
+    }
+}
+
+@media (min-width: 835px) and (max-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
+    :root {
+        --vh: 13.66px;
+        /* ~1366px — iPad Pro 12.9" portrait */
+    }
+}
+
 /* ---- desktop ---- */
 @media (min-width: 1024px) {
     :root {

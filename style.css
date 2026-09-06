@@ -1,7 +1,13 @@
 /* ---- HERO ---- */
 
 .hero {
-    height: 2000px;
+    height: calc(var(--vh) * 200);
+    transition: background-color 0.5s ease-in-out;
+}
+
+body {
+    background-color: var(--color-bg-reversed);
+    transition: background-color 0.5s ease-in-out;
 }
 
 .hero-stage {
@@ -21,12 +27,12 @@
     pointer-events: none;
 }
 
-.hero .dimmer {
-    transition: opacity 0.5s ease-in-out;
+body.is-dimmed {
+    background-color: var(--ink);
 }
 
-.hero.is-dimmed .dimmer {
-    opacity: 1;
+.hero {
+    background-color: transparent;
 }
 
 .hero-row {
@@ -63,6 +69,11 @@
     opacity: calc(1 - var(--p-word, 0));
     pointer-events: none;
     will-change: opacity;
+}
+
+body.is-dimmed .hero-word--blur::after{
+    background-color: var(--ink);
+    box-shadow: 0 0 0.5em 0.35em var(--ink);
 }
 
 .hero-word--highlight {
@@ -173,7 +184,6 @@
 .interlude-pin {
     height: calc(var(--vh) * 200);
     overflow: clip;
-    box-shadow: 0px -10px calc(var(--vh) * 10) calc(var(--vh) * 10) var(--ink);
 }
 
 .interlude-pin .pin-stage {

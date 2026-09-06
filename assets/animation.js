@@ -37,7 +37,7 @@
     var items = [];
     var ticking = false;
     var revealObservers = {};
-    var isMobileViewport = window.matchMedia('(max-width: 1023px)').matches;
+    var isMobileViewport = window.matchMedia('(max-width: 1025px)').matches;
 
     function update() {
         ticking = false;
@@ -121,7 +121,7 @@
 
     function registerAnchor(el) {
         var className = el.getAttribute('data-scroll-anchor');
-        var target = el.parentElement;
+        var target = document.body;
 
         function sync() {
             target.classList.toggle(className, el.getBoundingClientRect().top < 0);
