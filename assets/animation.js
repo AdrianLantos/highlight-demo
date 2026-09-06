@@ -114,6 +114,37 @@
     var revealEls = document.querySelectorAll('.reveal');
     revealEls.forEach(function (el) { registerReveal(el, revealObservers); });
 
+    // ---- anchor tier (bidirectional class toggle, no scroll math) ----
+    // The attribute value is the class name; it lands on the anchor's
+    // parent, added once the anchor scrolls above the viewport and
+    // removed again when it scrolls back in — reversible for free since
+    // it's just a CSS transition on a toggled class.
+
+    function registerAnchor(el) {
+        var className = el.getAttribute('data-scroll-anchor');
+        var target = el.parentElement;
+
+        function sync() {
+            target.classList.toggle(className, el.getBoundingClientRect().top < 0);
+        }
+
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                target.classList.toggle(className, entry.boundingClientRect.top < 0);
+            });
+        }, { threshold: 0 });
+        io.observe(el);
+
+        // A hash-link jump (Lenis anchors, or a fresh page load with a
+        // fragment) can land in one shot before the observer has a crossing
+        // to react to, so re-check explicitly once it settles.
+        window.addEventListener('load', sync);
+        window.addEventListener('hashchange', sync);
+    }
+
+    var anchorEls = document.querySelectorAll('[data-scroll-anchor]');
+    anchorEls.forEach(registerAnchor);
+
     // ---- public API ----
     window.ScrollEngine = {
         register: register,

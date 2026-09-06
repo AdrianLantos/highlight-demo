@@ -39,7 +39,7 @@
 /* ---- duo-tone hover: grayscale + multiply the image, then multiply an
    accent-colored overlay on top; caption sits in a later sibling so it's
    never touched by the tint ---- */
-.portfolio-media::before {
+/* .portfolio-media::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -53,7 +53,7 @@
 
 a.portfolio-item:hover .portfolio-media::before {
     opacity: 1;
-}
+} */
 
 .portfolio-media img,
 .portfolio-media video {
@@ -64,11 +64,12 @@ a.portfolio-item:hover .portfolio-media::before {
     transition: transform 0.4s ease, filter 0.4s ease;
 }
 
-a.portfolio-item:hover .portfolio-media img,
-a.portfolio-item:hover .portfolio-media video {
+.portfolio-item:hover .portfolio-media img,
+.portfolio-item:hover .portfolio-media video,
+.portfolio-item:hover.portfolio-visual img {
     transform: scale(1.1);
-    filter: grayscale(100%);
-    mix-blend-mode: multiply;
+    /* filter: grayscale(100%);
+    mix-blend-mode: multiply; */
 }
 
 .portfolio-flavor {
@@ -96,6 +97,7 @@ a.portfolio-item:hover .portfolio-media video {
     height: 100%;
     object-fit: cover;
     object-position: var(--media-focus, 50% 50%);
+    transition: 0.4s ease-in-out;
 }
 
 .portfolio-cta {

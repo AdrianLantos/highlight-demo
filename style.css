@@ -1,7 +1,7 @@
 /* ---- HERO ---- */
 
 .hero {
-    height: 250vh;
+    height: 200dvh;
 }
 
 .hero-stage {
@@ -9,8 +9,24 @@
     gap: var(--space-3);
     text-align: center;
     padding-inline: var(--container-padding);
-    --p-words: clamp(0, calc(var(--p, 0) / 0.85), 1);
-    --p-transition: clamp(0, calc((var(--p, 0) - 0.87) / 0.13), 1);
+    --p-words: clamp(0, calc(var(--p, 0) / 0.5), 1);
+}
+
+.hero-dimmer-anchor {
+    position: absolute;
+    top: 41%;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+}
+
+.hero .dimmer {
+    transition: opacity 0.5s ease-in-out;
+}
+
+.hero.is-dimmed .dimmer {
+    opacity: 1;
 }
 
 .hero-row {
@@ -94,7 +110,8 @@
 /* ---- CONTACT ---- */
 
 .contact {
-    height: 150vh;
+    height: 150dvh;
+    overflow: clip;
 }
 
 .contact *::selection {
@@ -154,8 +171,9 @@
 /* Interlude Sections */
 
 .interlude-pin {
-    height: 250vh;
+    height: 200vh;
     overflow: clip;
+    box-shadow: 0px -10px 10dvh 10dvh var(--ink);
 }
 
 .interlude-pin .pin-stage {
