@@ -891,6 +891,10 @@ video {
 }
 
 @media (min-width: 768px) {
+    .site-nav.locked {
+        transform: translate(-50%, 0);
+    }
+
     .site-nav-links {
         display: flex;
     }
@@ -923,7 +927,7 @@ video {
         height: auto;
         margin: calc(var(--vh) * 15) 0 calc(var(--vh) * 5) 0;
     }
-    
+
     .title-pin .pin-stage {
         position: static;
         height: fit-content;
