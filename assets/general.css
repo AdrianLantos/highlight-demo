@@ -893,6 +893,7 @@ video {
 @media (min-width: 768px) {
     .site-nav.locked {
         transform: translate(-50%, 0);
+        background-color: var(--ink);
     }
 
     .site-nav-links {
